@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Dars Jadvali [TATU UF]</string>
+    <string name="no_internet_connection">Siz intenetga ulanmagansiz. Dasturdan foydalanish uchun internetga ulaning</string>
+    <string name="retry">Qayta urinish</string>
+    <string name="change_group">Guruhni o\'zgartirish</string>
+    <string name="room_name_text">%1$s xona</string>
+    <string name="teacher_name_text">%1$s</string>
+</resources>
