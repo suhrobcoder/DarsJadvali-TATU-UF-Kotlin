@@ -1,7 +1,5 @@
 package uz.suhrob.darsjadvalitatuuf
 
-import org.junit.Test
-
 import org.junit.Assert.*
 
 /**

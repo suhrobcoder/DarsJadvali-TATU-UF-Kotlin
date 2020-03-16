@@ -12,7 +12,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
-import android.util.Log
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.*
 import java.util.*
@@ -32,6 +31,7 @@ class ScheduleAlarm: BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         val powerManager = context?.getSystemService(Context.POWER_SERVICE) as PowerManager
         val wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Next Lesson")
+        wl.acquire(600*1000)
         val group = intent?.extras?.getString(groupData)
         val settings = intent?.extras?.getString(settingsData)
         val title = intent?.extras?.getString(titleData)
@@ -72,7 +72,6 @@ class ScheduleAlarm: BroadcastReceiver() {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, ScheduleAlarm::class.java)
         val scheduleNotify = getNextSchedule(group, settings)
-        Log.d("api", Gson().toJson(scheduleNotify))
         val schedule = scheduleNotify.schedule
         intent.putExtra(titleData, schedule?.title)
         intent.putExtra(roomData, schedule?.roomName)
@@ -143,10 +142,8 @@ class ScheduleAlarm: BroadcastReceiver() {
                 nowInMinutes = 0
         }
         val scheduleNotify = ScheduleNotify(null, null)
-        Log.d("alarm", "getnextschedule")
         for (schedule in lists[dayOfWeek]) {
             val thisLessonStartTime = settings.startTime - 10 + (settings.breakTime+settings.lessonDuration)*(schedule.order-1)
-            Log.d("alarm", "$nowInMinutes : $thisLessonStartTime")
             if (nowInMinutes < thisLessonStartTime) {
                 calendar.timeInMillis += nextLessonAfterDays*86400*1000
                 calendar.set(Calendar.HOUR_OF_DAY, thisLessonStartTime/60)

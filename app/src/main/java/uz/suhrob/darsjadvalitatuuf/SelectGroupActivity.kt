@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_select_group.*
@@ -25,8 +26,8 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         select_retry_btn.setOnClickListener {
             if (hasInternetConnection()) {
                 ApiHelper().getGroupList(this)
-            } else {
-                select_progressbar.visibility = View.GONE
+                select_no_internet_layout.visibility = View.GONE
+                select_progressbar.visibility = View.VISIBLE
             }
         }
         if (hasInternetConnection()) {
@@ -45,14 +46,16 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
 
     override fun groupListLoaded(responseString: String?) {
         select_progressbar.visibility = View.GONE
-        val groups = responseString?.split("\n")
-        groups?.filter { !it.isEmpty() }
+        val groups = responseString?.split("\n")!!.toMutableList()
+        if (groups[groups.size-1].isEmpty()) {
+            groups.removeAt(groups.size-1)
+        }
         group_list_view.adapter = ArrayAdapter(this,
                 android.R.layout.simple_list_item_1,
                 android.R.id.text1, groups)
         group_list_view.setOnItemClickListener { _, _, position, _ ->
             val returnIntent = Intent()
-            returnIntent.putExtra("result", groups?.get(position))
+            returnIntent.putExtra("result", groups[position])
             setResult(Activity.RESULT_OK, returnIntent)
             finish()
         }
