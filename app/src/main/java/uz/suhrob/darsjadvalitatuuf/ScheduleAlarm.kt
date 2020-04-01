@@ -11,7 +11,7 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
-import android.support.v4.app.NotificationCompat
+import androidx.core.app.NotificationCompat
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.*
 import java.util.*

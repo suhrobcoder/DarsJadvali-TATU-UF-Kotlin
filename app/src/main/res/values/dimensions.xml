@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="no_internet_text_margin">30dp</dimen>
+    <dimen name="splash__icon_layout_margin">15dp</dimen>
+    <dimen name="splash__icon_dimen">40dp</dimen>
+    <dimen name="splash__icon_text_size">20sp</dimen>
+    <dimen name="schedule_item_bottom_top_margin">5dp</dimen>
+    <dimen name="schedule_item_start_end_margin">5dp</dimen>
+    <dimen name="schedule_item_time_padding">10dp</dimen>
+    <dimen name="schedule_item_time_size">20sp</dimen>
+    <dimen name="schedule_item_margin_bw_times">10dp</dimen>
+
+</resources>

@@ -1,16 +1,16 @@
 package uz.suhrob.darsjadvalitatuuf
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
-import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import uz.suhrob.darsjadvalitatuuf.adapter.MyPagerAdapter
@@ -101,7 +101,7 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
             return
         }
         if (hasInternetConnection()) {
-            if (!sharedPreferencesHelper.getGroup().isEmpty()) {
+            if (sharedPreferencesHelper.getGroup().isNotEmpty()) {
                 main_progressbar.visibility = View.VISIBLE
                 ApiHelper().getSchedule(sharedPreferencesHelper.getGroup(), this)
             } else {
@@ -113,9 +113,22 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     private fun hasInternetConnection(): Boolean {
+        val result: Boolean
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = cm.activeNetworkInfo
-        return info != null && info.isConnectedOrConnecting
+        result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = cm.activeNetwork ?: return false
+            val actNw = cm.getNetworkCapabilities(networkCapabilities) ?: return false
+            when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            val netInfo = cm.activeNetworkInfo
+            !(netInfo != null && netInfo.isConnected)
+        }
+        return result
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -131,9 +144,9 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            sharedPreferencesHelper.setGroup(data!!.getStringExtra("result"))
-            Log.d("result", "ok")
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            data?.getStringExtra("result")?.let { sharedPreferencesHelper.setGroup(it) }
             loadData()
         }
     }

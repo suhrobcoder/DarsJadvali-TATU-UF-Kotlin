@@ -8,10 +8,9 @@ import uz.suhrob.darsjadvalitatuuf.models.Settings
 /**
  * Created by User on 12.03.2020.
  */
-class SharedPreferencesHelper(_context: Context) {
+class SharedPreferencesHelper(private val context: Context) {
 
     private val fileName = "schedule"
-    private val context = _context
 
     fun getSettings(): Settings {
         val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
@@ -25,7 +24,7 @@ class SharedPreferencesHelper(_context: Context) {
 
     fun getGroup(): String {
         val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
-        return preferences.getString("group", "")
+        return preferences.getString("group", "")!!
     }
 
     fun setGroup(group: String) {
@@ -42,7 +41,7 @@ class SharedPreferencesHelper(_context: Context) {
 
     fun scheduleLoaded(): Boolean {
         val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
-        return !preferences.getString("schedule", "").isEmpty() && getSchedule().name == getGroup()
+        return preferences.getString("schedule", "")?.isNotEmpty()!! && getSchedule().name == getGroup()
     }
 
     fun getSchedule(): Group {

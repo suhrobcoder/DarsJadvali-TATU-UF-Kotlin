@@ -3,11 +3,11 @@
 xmlns:app="http://schemas.android.com/apk/res-auto"
 android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="100dp"
-android:background="@color/colorPrimaryLight"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp"
-    android:layout_marginStart="2dp"
-    android:layout_marginEnd="2dp">
+android:background="@drawable/schedule_bg"
+    android:layout_marginTop="@dimen/schedule_item_bottom_top_margin"
+    android:layout_marginBottom="@dimen/schedule_item_bottom_top_margin"
+    android:layout_marginStart="@dimen/schedule_item_start_end_margin"
+    android:layout_marginEnd="@dimen/schedule_item_start_end_margin">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -19,23 +19,23 @@ android:background="@color/colorPrimaryLight"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center"
-        android:padding="10dp">
+        android:padding="@dimen/schedule_item_time_padding">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_schedule_start_time"
             android:text=""
-            android:textSize="20sp"
-            android:layout_marginBottom="10dp"
-            android:textColor="#fff"/>
+            android:textSize="@dimen/schedule_item_time_size"
+            android:layout_marginBottom="@dimen/schedule_item_margin_bw_times"
+            android:textColor="@color/white"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/item_schedule_finish_time"
-            android:textColor="#fff"
-            android:textSize="20sp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/schedule_item_time_size"
             android:text=""/>
 
     </LinearLayout>
@@ -45,28 +45,19 @@ android:background="@color/colorPrimaryLight"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="3dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="25sp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:singleLine="true"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:focusableInTouchMode="true"
-                android:textColor="#fff"
-                android:ellipsize="marquee"
-                android:id="@+id/item_subject_name"/>
-
-        </LinearLayout>
+            android:text=""
+            android:textSize="25sp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:focusableInTouchMode="true"
+            android:textColor="@color/white"
+            android:id="@+id/item_subject_name"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,7 +75,7 @@ android:background="@color/colorPrimaryLight"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:id="@+id/item_lesson_room"
                 android:text=""
                 android:textSize="15sp"/>
@@ -96,10 +87,9 @@ android:background="@color/colorPrimaryLight"
                 android:text=""
                 android:layout_marginStart="10dp"
                 android:id="@+id/item_lesson_type"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 android:padding="3dp"
-                android:maxLines="1"
                 android:background="@color/colorAccent"/>
 
         </LinearLayout>
@@ -120,7 +110,7 @@ android:background="@color/colorPrimaryLight"
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#fff"
+                android:textColor="@color/white"
                 android:id="@+id/item_teacher_name"
                 android:text=""/>
 

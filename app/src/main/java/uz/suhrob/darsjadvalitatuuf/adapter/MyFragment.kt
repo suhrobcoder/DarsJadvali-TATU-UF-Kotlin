@@ -1,9 +1,9 @@
 package uz.suhrob.darsjadvalitatuuf.adapter
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,15 +27,15 @@ class MyFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val arguments = arguments
-        val schedules = Gson().fromJson(arguments.getString(ARG_SCHEDULES), Group::class.java).schedules
+        val schedules = Gson().fromJson(arguments?.getString(ARG_SCHEDULES), Group::class.java).schedules
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.day_item, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = MyAdapter(context, schedules)
+        recyclerView.adapter = MyAdapter(context!!, schedules)
         return view
     }
 }

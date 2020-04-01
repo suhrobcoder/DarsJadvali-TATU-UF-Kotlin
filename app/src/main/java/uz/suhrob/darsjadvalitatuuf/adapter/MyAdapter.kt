@@ -1,7 +1,7 @@
 package uz.suhrob.darsjadvalitatuuf.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -25,18 +25,14 @@ class MyAdapter(private val context: Context, private val schedules: List<Schedu
         return schedules.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.schedule_item, parent, false))
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val schedule: Schedule? = schedules.firstOrNull { it.order == position+1 }
         if (schedule != null) {
-            when (holder) {
-                is ViewHolder -> {
-                    holder.bind(schedule)
-                }
-            }
+            holder.bind(schedule)
         }
     }
 

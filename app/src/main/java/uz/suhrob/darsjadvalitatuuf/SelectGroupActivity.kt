@@ -1,12 +1,12 @@
 package uz.suhrob.darsjadvalitatuuf
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_select_group.*
@@ -39,9 +39,22 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     private fun hasInternetConnection(): Boolean {
+        var result = false
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = cm.activeNetworkInfo
-        return info != null && info.isConnectedOrConnecting
+        result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val networkCapabilities = cm.activeNetwork ?: return false
+            val actNw = cm.getNetworkCapabilities(networkCapabilities) ?: return false
+            when {
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } else {
+            val netInfo = cm.activeNetworkInfo
+            !(netInfo != null && netInfo.isConnected)
+        }
+        return result
     }
 
     override fun groupListLoaded(responseString: String?) {
@@ -56,7 +69,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         group_list_view.setOnItemClickListener { _, _, position, _ ->
             val returnIntent = Intent()
             returnIntent.putExtra("result", groups[position])
-            setResult(Activity.RESULT_OK, returnIntent)
+            setResult(AppCompatActivity.RESULT_OK, returnIntent)
             finish()
         }
     }
