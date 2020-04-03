@@ -26,7 +26,6 @@ class ApiHelper {
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseString: String?) {
                 dataLoadInterface.groupListLoaded(responseString)
             }
-
         })
     }
 
@@ -40,10 +39,8 @@ class ApiHelper {
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseString: String?) {
-                Log.d("api", responseString)
                 dataLoadInterface.scheduleLoaded(Gson().fromJson(responseString, Group::class.java), true)
             }
-
         })
     }
 

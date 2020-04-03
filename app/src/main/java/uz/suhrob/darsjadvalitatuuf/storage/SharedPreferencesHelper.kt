@@ -1,6 +1,7 @@
 package uz.suhrob.darsjadvalitatuuf.storage
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings
@@ -11,9 +12,13 @@ import uz.suhrob.darsjadvalitatuuf.models.Settings
 class SharedPreferencesHelper(private val context: Context) {
 
     private val fileName = "schedule"
+    private val preferences : SharedPreferences
+
+    init {
+        preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+    }
 
     fun getSettings(): Settings {
-        val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
         return Settings(
                 preferences.getInt("start_time", 510),
                 preferences.getInt("lesson_duration", 80),
@@ -22,30 +27,35 @@ class SharedPreferencesHelper(private val context: Context) {
         )
     }
 
+    fun getSettingsString(): String {
+        return Gson().toJson(getSettings())
+    }
+
     fun getGroup(): String {
-        val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
         return preferences.getString("group", "")!!
     }
 
     fun setGroup(group: String) {
-        val editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-        editor.putString("group", group)
-        editor.apply()
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
+                .putString("group", group)
+                .apply()
     }
 
     fun setSchedule(group: Group) {
-        val editor = context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-        editor.putString("schedule", Gson().toJson(group))
-        editor.apply()
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
+                .putString("schedule", Gson().toJson(group))
+                .apply()
     }
 
     fun scheduleLoaded(): Boolean {
-        val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
         return preferences.getString("schedule", "")?.isNotEmpty()!! && getSchedule().name == getGroup()
     }
 
     fun getSchedule(): Group {
-        val preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
         return Gson().fromJson(preferences.getString("schedule", ""), Group::class.java)
+    }
+
+    fun getScheduleString(): String {
+        return preferences.getString("schedule", "")!!
     }
 }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_homework_title"
+        android:text="Dinshunoslik fanidan uyga vazifa"
+        android:textSize="25sp"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/homework_content"
+        android:id="@+id/add_homework_content"
+        android:textSize="20sp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:id="@+id/add_homework_cancel"
+            android:textSize="15sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Dialog"
+            android:id="@+id/add_homework_ok"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

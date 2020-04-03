@@ -1,0 +1,30 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        app:title="@string/main"
+        app:iconSpaceReserved="false">
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:title="@string/notifications"
+        app:iconSpaceReserved="false">
+
+        <SwitchPreference
+            app:title="@string/enable_notifications"
+            app:summary="@string/enable_notification_summary"
+            app:key="enable_notifications"
+            app:iconSpaceReserved="false"/>
+
+        <ListPreference
+            app:key="homework_notify"
+            app:title="Uyga vazifani eslatish"
+            app:iconSpaceReserved="false"
+            app:entries="@array/homework_notify_entries"
+            app:entryValues="@array/homework_notify_entry_values"
+            app:dialogTitle="Uyga vazifani eslatish"
+            app:defaultValue="1"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.*
@@ -30,7 +31,7 @@ class ScheduleAlarm: BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         val powerManager = context?.getSystemService(Context.POWER_SERVICE) as PowerManager
-        val wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "Next Lesson")
+        val wl = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "myapp:NextLesson")
         wl.acquire(600*1000)
         val group = intent?.extras?.getString(groupData)
         val settings = intent?.extras?.getString(settingsData)

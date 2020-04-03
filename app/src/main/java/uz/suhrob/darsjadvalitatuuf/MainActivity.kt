@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
-import uz.suhrob.darsjadvalitatuuf.adapter.MyPagerAdapter
+import uz.suhrob.darsjadvalitatuuf.adapter.ViewPagerAdapter
 import uz.suhrob.darsjadvalitatuuf.api.ApiHelper
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
         lists.add(thursdayList)
         lists.add(fridayList)
         lists.add(saturdayList)
-        val adapter = MyPagerAdapter(lists, supportFragmentManager)
+        val adapter = ViewPagerAdapter(lists, supportFragmentManager)
         main_viewpager.adapter = adapter
         main_progressbar.visibility = View.GONE
         sharedPreferencesHelper.setSchedule(group)
@@ -137,8 +137,9 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if (item?.itemId == R.id.change_group_menu) {
-            startActivityForResult(Intent(applicationContext, SelectGroupActivity::class.java), 1)
+        when (item?.itemId) {
+            R.id.change_group_menu -> startActivityForResult(Intent(applicationContext, SelectGroupActivity::class.java), 1)
+            R.id.settings_menu -> startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
         return true
     }

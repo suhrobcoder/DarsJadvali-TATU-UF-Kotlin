@@ -5,4 +5,26 @@
     <string name="change_group">Guruhni o\'zgartirish</string>
     <string name="room_name_text">%1$s xona</string>
     <string name="teacher_name_text">%1$s</string>
+    <string name="settings">Sozlamalar</string>
+    <string name="title_activity_settings">Sozlamalar</string>
+    <string name="enable_notifications">Dars haqida bildirishnoma</string>
+    <string name="main">Asosiy</string>
+    <string name="notifications">Bildirishnomalar</string>
+    <string name="cancel">Bekor qilish</string>
+    <string name="ok">OK</string>
+    <string name="homework_content">Uyga vazifa matni</string>
+    <string name="add_homework_dialog_title">%s fanidan uyga vazifa</string>
+    <string name="homework_notification_summary">%s kun oldin</string>
+    <string name="enable_notification_summary">Dars boshlanishidan 10 daqiqa oldin dars haqidagi bildirishnoma</string>
+
+    <string-array name="homework_notify_entry_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="homework_notify_entries">
+        <item>1 kun oldin</item>
+        <item>2 kun oldin</item>
+        <item>3 kun oldin</item>
+    </string-array>
 </resources>

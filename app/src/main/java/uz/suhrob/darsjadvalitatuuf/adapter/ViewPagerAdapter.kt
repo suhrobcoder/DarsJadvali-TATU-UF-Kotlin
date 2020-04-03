@@ -10,13 +10,13 @@ import uz.suhrob.darsjadvalitatuuf.models.Schedule
 /**
  * Created by User on 12.03.2020.
  */
-class MyPagerAdapter(private val schedules: List<List<Schedule>>, fm: FragmentManager): FragmentStatePagerAdapter(fm) {
+class ViewPagerAdapter(private val schedules: List<List<Schedule>>, fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val weekDays = arrayOf("Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba")
 
     override fun getItem(position: Int): Fragment {
         val group = Group("", schedules[position])
-        return MyFragment.newInstance(Gson().toJson(group))
+        return ScheduleFragment.newInstance(Gson().toJson(group))
     }
 
     override fun getCount(): Int {
