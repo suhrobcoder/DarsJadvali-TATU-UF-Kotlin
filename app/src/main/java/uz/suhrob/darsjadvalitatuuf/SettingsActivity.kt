@@ -42,6 +42,7 @@ class SettingsActivity : AppCompatActivity() {
                 }
             } else if (key.equals(homeworkNotification)) {
                 val homeworkNotificationPref = findPreference<ListPreference>(homeworkNotification)
+                SharedPreferencesHelper(context!!).setHomeworkNotify(preferenceScreen.sharedPreferences.getString(homeworkNotification, "1")?.toInt())
                 homeworkNotificationPref?.summary = String.format(
                         context!!.resources.getString(R.string.homework_notification_summary),
                         preferenceScreen.sharedPreferences.getString(homeworkNotification, "1"))

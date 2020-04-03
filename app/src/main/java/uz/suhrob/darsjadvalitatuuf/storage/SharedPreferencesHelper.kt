@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.Group
+import uz.suhrob.darsjadvalitatuuf.models.HomeWork
+import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 
 /**
@@ -55,7 +57,45 @@ class SharedPreferencesHelper(private val context: Context) {
         return Gson().fromJson(preferences.getString("schedule", ""), Group::class.java)
     }
 
+    fun getScheduleByHomework(homework: HomeWork?): Schedule? {
+        if (homework == null) {
+            return null
+        }
+        val schedules = getSchedule().schedules
+        for (schedule in schedules) {
+            if (schedule.weekDay == homework.weekDay && schedule.order == homework.order) {
+                return schedule
+            }
+        }
+        return null
+    }
+
     fun getScheduleString(): String {
         return preferences.getString("schedule", "")!!
+    }
+
+    fun getHomeworkNotify(): Int {
+        return preferences.getInt("homework_notify", 1)
+    }
+
+    fun setHomeworkNotify(n: Int?) {
+        if (n != null) {
+            context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
+                    .putInt("homework_notify", n)
+                    .apply()
+        }
+    }
+
+    fun setHomeworkNotifyTime(hour: Int, minute: Int) {
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
+                .putInt("homework_notify_time_hour", hour)
+                .apply()
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
+                .putInt("homework_notify_time_minute", minute)
+                .apply()
+    }
+
+    fun getHomeworkNotifyTime(): Int {
+        return preferences.getInt("homework_notify_time_hour", 15)*60+preferences.getInt("homework_notify_time_minute", 0)
     }
 }

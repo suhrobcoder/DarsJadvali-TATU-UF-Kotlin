@@ -10,12 +10,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.schedule_item.view.*
+import uz.suhrob.darsjadvalitatuuf.HomeworkAlarm
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.HomeWork
+import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
@@ -85,7 +85,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                     iconPerson.visibility = View.GONE
                 }
 
-                val homeWork = dbHelper.getWithSchedule(schedule)
+                val homeWork = dbHelper.getHomeworkWithSchedule(schedule)
                 if (homeWork != null) {
                     homeWorkPanelAddBtn.setOnClickListener {
                         if (homeWorksOpened) {
@@ -129,9 +129,40 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
             okBtn.setOnClickListener {
                 val content = homeworkContent.text.toString()
                 if (homeWork != null) {
-                    DBHelper(context).update(homeWork, content)
+                    DBHelper(context).updateHomework(homeWork, content)
                 } else {
-                    DBHelper(context).insert(HomeWork(0, content, content, schedule.weekDay, schedule.order))
+                    val homeworkId = dbHelper.insertHomework(HomeWork(0, content, content, schedule.weekDay, schedule.order))
+                    if (homeworkId > 0) {
+                        val homeworkNotify = HomeworkNotify(0, homeworkId, SharedPreferencesHelper(context).getHomeworkNotify())
+                        val notifyId = dbHelper.insertHomeworkNotify(homeworkNotify)
+                        val calendar = Calendar.getInstance()
+                        val notifyTime = SharedPreferencesHelper(context).getHomeworkNotifyTime()
+                        val notifyHour = notifyTime / 60
+                        val notifyMinute = notifyTime % 60
+                        val scheduleDay = schedule.weekDay.ordinal
+                        val today = calendar.get(Calendar.DAY_OF_WEEK)-2
+                        var deltaDays = scheduleDay-today
+                        var notifyBeforeDays = SharedPreferencesHelper(context).getHomeworkNotify()
+                        if (today >= scheduleDay) {
+                            deltaDays += 7
+                        }
+                        if (deltaDays >= notifyBeforeDays) {
+                            deltaDays -= notifyBeforeDays
+                        } else {
+                            notifyBeforeDays = deltaDays
+                            deltaDays = 0
+                        }
+                        calendar.timeInMillis += (deltaDays)*86400*1000
+                        calendar.set(Calendar.MINUTE, notifyMinute)
+                        while (calendar.timeInMillis < Calendar.getInstance().timeInMillis) {
+                            calendar.timeInMillis += 86400*1000
+                            notifyBeforeDays--
+                        }
+                        homeworkNotify.days = notifyBeforeDays
+                        dbHelper.updateNotify(homeworkNotify)
+                        HomeworkAlarm().setAlarm(context, calendar.timeInMillis, notifyId)
+                        calendar.set(Calendar.HOUR_OF_DAY, notifyHour)
+                    }
                 }
                 notifyItemChanged(adapterPosition)
                 dialog.dismiss()
