@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
+import android.util.Log
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
@@ -28,15 +30,23 @@ class HomeworkAlarm: BroadcastReceiver() {
         wl.acquire(600*1000)
         val dbHelper = DBHelper(context)
         val homeworkDone = intent?.extras?.getBoolean(deleteNotify, false) ?: false
+        Toast.makeText(context, homeworkDone.toString(), Toast.LENGTH_SHORT).show()
         val homeworkNotifyId = intent?.extras?.getInt(notifyId) ?: return
+        Log.d("alarm_time", homeworkDone.toString())
         if (homeworkDone) {
             dbHelper.deleteNotify(HomeworkNotify(homeworkNotifyId.toLong(),0,0))
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                notificationManager.deleteNotificationChannel(homeworkNotifyId.toString())
+//            } else {
+//            }
+            notificationManager.cancel(homeworkNotifyId)
         } else {
             val homeworkNotify = dbHelper.getHomeworkNotifyById(homeworkNotifyId) ?: return
             val homeWork = dbHelper.getHomeworkById(homeworkNotify.homework_id) ?: return
             val schedule = SharedPreferencesHelper(context).getScheduleByHomework(homeWork) ?: return
-            val notificationTitle = "${homeworkNotify.days-1} kundan so'ng ${schedule.title} fanidan uyga vazifangiz bor"
-            val notificationContent = homeWork.content
+            val notificationTitle = schedule.title
+            val notificationContent = "${homeworkNotify.days-1} kundan so'ng ${schedule.title} fanidan uyga vazifangiz bor\n${homeWork.content}"
             val builder = NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.ic_notification)
                     .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
@@ -52,11 +62,12 @@ class HomeworkAlarm: BroadcastReceiver() {
             val pIntent = PendingIntent.getBroadcast(context, homeworkNotifyId, intent1, PendingIntent.FLAG_UPDATE_CURRENT)
             builder.addAction(R.drawable.ic_menu, "Bajardim", pIntent)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val notificationChannel = NotificationChannel("homework_notification", "Uyga vazifa", NotificationManager.IMPORTANCE_DEFAULT)
+                val notificationChannel = NotificationChannel(homeworkNotifyId.toString(), "Uyga vazifa", NotificationManager.IMPORTANCE_DEFAULT)
                 notificationManager.createNotificationChannel(notificationChannel)
-                builder.setChannelId("homework_notification")
+                builder.setChannelId(homeworkNotifyId.toString())
             }
             notificationManager.notify(homeworkNotifyId, builder.build())
+            Toast.makeText(context, "Notification ketdi", Toast.LENGTH_SHORT).show()
             homeworkNotify.days -= 1
             dbHelper.updateNotify(homeworkNotify)
             if (homeworkNotify.days > 0) {
@@ -74,6 +85,7 @@ class HomeworkAlarm: BroadcastReceiver() {
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent)
         val calendar = Calendar.getInstance()
         calendar.timeInMillis = timeInMillis
+        Toast.makeText(context, ""+calendar.get(Calendar.DAY_OF_MONTH), Toast.LENGTH_SHORT).show()
     }
 
     fun cancelAlarm(context: Context, homeworkNotifyId: Int) {

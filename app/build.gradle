@@ -31,5 +31,5 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.loopj.android:android-async-http:1.4.9'
-    implementation 'androidx.preference:preference:1.1.0-rc01'
+    implementation 'androidx.preference:preference:1.1.0'
 }

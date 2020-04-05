@@ -153,15 +153,16 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                             deltaDays = 0
                         }
                         calendar.timeInMillis += (deltaDays)*86400*1000
-                        calendar.set(Calendar.MINUTE, notifyMinute)
                         while (calendar.timeInMillis < Calendar.getInstance().timeInMillis) {
                             calendar.timeInMillis += 86400*1000
                             notifyBeforeDays--
                         }
                         homeworkNotify.days = notifyBeforeDays
-                        dbHelper.updateNotify(homeworkNotify)
-                        HomeworkAlarm().setAlarm(context, calendar.timeInMillis, notifyId)
+                        dbHelper.insertHomeworkNotify(homeworkNotify)
+                        calendar.set(Calendar.MINUTE, notifyMinute)
                         calendar.set(Calendar.HOUR_OF_DAY, notifyHour)
+                        Log.d("alarm_time", calendar.toString())
+                        HomeworkAlarm().setAlarm(context, calendar.timeInMillis, notifyId)
                     }
                 }
                 notifyItemChanged(adapterPosition)

@@ -46,6 +46,7 @@ class SettingsActivity : AppCompatActivity() {
                 homeworkNotificationPref?.summary = String.format(
                         context!!.resources.getString(R.string.homework_notification_summary),
                         preferenceScreen.sharedPreferences.getString(homeworkNotification, "1"))
+
             }
         }
 

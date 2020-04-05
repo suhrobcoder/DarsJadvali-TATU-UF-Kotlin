@@ -30,6 +30,7 @@
         <activity android:name=".MainActivity" />
 
         <receiver android:name=".ScheduleAlarm" />
+        <receiver android:name=".HomeworkAlarm" />
     </application>
 
 </manifest>

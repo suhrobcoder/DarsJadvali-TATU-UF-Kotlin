@@ -54,10 +54,10 @@ class ScheduleAlarm: BroadcastReceiver() {
                 .setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                 .setContentTitle(notificationTitle)
-                .setContentText(notificationContent)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setStyle(NotificationCompat.BigTextStyle().bigText(notificationContent))
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel("schedule_notification", "Keyingi dars", NotificationManager.IMPORTANCE_DEFAULT)

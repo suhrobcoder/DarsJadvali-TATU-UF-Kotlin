@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/F:/Dasturlar/O'rnatilgan/android-studio/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_keyboard_arrow_down_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/F:/Dasturlar/O'rnatilgan/android-studio/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_menu_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,7 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_arrow_up" />
+                            <entry key="outputName" value="ic_menu" />
                             <entry key="sourceFile" value="C:\Users\User" />
                           </map>
                         </option>

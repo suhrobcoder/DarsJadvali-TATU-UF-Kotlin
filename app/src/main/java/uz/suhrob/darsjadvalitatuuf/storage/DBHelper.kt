@@ -104,7 +104,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
     }
 
     fun getHomeworkNotifyById(notifyId: Int?): HomeworkNotify? {
-        val query = "SELECT * FROM $tbHomeworkName WHERE $id=$notifyId"
+        val query = "SELECT * FROM $tbNotifyName WHERE $id=$notifyId"
         val cursor = this.writableDatabase.rawQuery(query, null)
         val homeWorkNotify: HomeworkNotify? = if (cursor.moveToFirst()) {
             HomeworkNotify(
