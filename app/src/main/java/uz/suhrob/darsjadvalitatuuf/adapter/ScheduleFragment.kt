@@ -11,9 +11,6 @@ import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.Group
 
-/**
- * Created by User on 12.03.2020.
- */
 class ScheduleFragment : Fragment() {
 
     companion object {

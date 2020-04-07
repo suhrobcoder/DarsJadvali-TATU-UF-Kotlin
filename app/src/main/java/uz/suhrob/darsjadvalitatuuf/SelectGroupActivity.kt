@@ -13,9 +13,6 @@ import kotlinx.android.synthetic.main.activity_select_group.*
 import uz.suhrob.darsjadvalitatuuf.api.ApiHelper
 import uz.suhrob.darsjadvalitatuuf.models.Group
 
-/**
- * Created by User on 11.03.2020.
- */
 class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

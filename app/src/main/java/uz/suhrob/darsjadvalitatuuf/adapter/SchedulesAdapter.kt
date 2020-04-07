@@ -14,16 +14,13 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.schedule_item.view.*
 import uz.suhrob.darsjadvalitatuuf.HomeworkAlarm
 import uz.suhrob.darsjadvalitatuuf.R
-import uz.suhrob.darsjadvalitatuuf.models.HomeWork
+import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 import java.util.*
 
-/**
- * Created by User on 12.03.2020.
- */
 class SchedulesAdapter(private val context: Context, private val schedules: List<Schedule>) : RecyclerView.Adapter<SchedulesAdapter.ViewHolder>() {
 
     val settings = SharedPreferencesHelper(context).getSettings()
@@ -113,7 +110,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
             }
         }
 
-        private fun addEditHomeworkDialog(homeWork: HomeWork?, oldContent: String, schedule: Schedule) {
+        private fun addEditHomeworkDialog(homework: Homework?, oldContent: String, schedule: Schedule) {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.add_homework_dialog)
             dialog.setTitle("Uyga vazifa qo'shish")
@@ -128,10 +125,10 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
             titleText.text = String.format(context.resources.getString(R.string.add_homework_dialog_title), schedule.title)
             okBtn.setOnClickListener {
                 val content = homeworkContent.text.toString()
-                if (homeWork != null) {
-                    DBHelper(context).updateHomework(homeWork, content)
+                if (homework != null) {
+                    DBHelper(context).updateHomework(homework, content)
                 } else {
-                    val homeworkId = dbHelper.insertHomework(HomeWork(0, content, content, schedule.weekDay, schedule.order))
+                    val homeworkId = dbHelper.insertHomework(Homework(0, content, schedule.weekDay, schedule.order))
                     if (homeworkId > 0) {
                         val homeworkNotify = HomeworkNotify(0, homeworkId, SharedPreferencesHelper(context).getHomeworkNotify())
                         val notifyId = dbHelper.insertHomeworkNotify(homeworkNotify)

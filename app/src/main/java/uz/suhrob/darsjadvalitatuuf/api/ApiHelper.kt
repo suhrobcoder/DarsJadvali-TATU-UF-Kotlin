@@ -9,9 +9,6 @@ import cz.msebera.android.httpclient.Header
 import uz.suhrob.darsjadvalitatuuf.DataLoadInterface
 import uz.suhrob.darsjadvalitatuuf.models.Group
 
-/**
- * Created by User on 11.03.2020.
- */
 class ApiHelper {
 
     private val baseUrl = "http://suhrobbotcodes.000webhostapp.com/schedule/"

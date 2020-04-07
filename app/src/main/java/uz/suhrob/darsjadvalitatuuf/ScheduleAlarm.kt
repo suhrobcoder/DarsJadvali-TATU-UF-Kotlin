@@ -17,9 +17,6 @@ import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.*
 import java.util.*
 
-/**
- * Created by User on 13.03.2020.
- */
 class ScheduleAlarm: BroadcastReceiver() {
 
     private val intentId = 1

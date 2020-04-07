@@ -9,9 +9,6 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_splash.*
 
-/**
- * Created by User on 11.03.2020.
- */
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

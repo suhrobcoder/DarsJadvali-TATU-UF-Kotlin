@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.Group
-import uz.suhrob.darsjadvalitatuuf.models.HomeWork
+import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 
-/**
- * Created by User on 12.03.2020.
- */
 class SharedPreferencesHelper(private val context: Context) {
 
     private val fileName = "schedule"
@@ -43,21 +40,26 @@ class SharedPreferencesHelper(private val context: Context) {
                 .apply()
     }
 
-    fun setSchedule(group: Group) {
+    fun scheduleLoaded(): Boolean {
+        return preferences.getBoolean("loaded", false)
+    }
+
+    fun setScheduleLoaded(isLoaded: Boolean) {
         context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                .putString("schedule", Gson().toJson(group))
+                .putBoolean("loaded", isLoaded)
                 .apply()
     }
 
-    fun scheduleLoaded(): Boolean {
-        return preferences.getString("schedule", "")?.isNotEmpty()!! && getSchedule().name == getGroup()
+    fun setSchedule(group: Group) {
+        DBHelper(context).insertSchedules(group.schedules)
+        setScheduleLoaded(true)
     }
 
     fun getSchedule(): Group {
-        return Gson().fromJson(preferences.getString("schedule", ""), Group::class.java)
+        return Group(getGroup(), DBHelper(context).getSchedules())
     }
 
-    fun getScheduleByHomework(homework: HomeWork?): Schedule? {
+    fun getScheduleByHomework(homework: Homework?): Schedule? {
         if (homework == null) {
             return null
         }
@@ -71,7 +73,7 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun getScheduleString(): String {
-        return preferences.getString("schedule", "")!!
+        return Gson().toJson(getSchedule())
     }
 
     fun getHomeworkNotify(): Int {
