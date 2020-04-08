@@ -97,6 +97,22 @@ class SharedPreferencesHelper(private val context: Context) {
                 .apply()
     }
 
+    fun getHomeworkNotifyTimeString(): String {
+        val hour = preferences.getInt("homework_notify_time_hour", 15)
+        val minute = preferences.getInt("homework_notify_time_minute", 0)
+        var result = if (hour > 9) {
+            "$hour"
+        } else {
+            "0$hour"
+        }
+        result += if (minute > 9) {
+            ":$minute"
+        } else {
+            ":0$minute"
+        }
+        return result
+    }
+
     fun getHomeworkNotifyTime(): Int {
         return preferences.getInt("homework_notify_time_hour", 15)*60+preferences.getInt("homework_notify_time_minute", 0)
     }

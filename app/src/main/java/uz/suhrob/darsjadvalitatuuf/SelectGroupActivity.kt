@@ -36,9 +36,8 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     private fun hasInternetConnection(): Boolean {
-        var result = false
         val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val networkCapabilities = cm.activeNetwork ?: return false
             val actNw = cm.getNetworkCapabilities(networkCapabilities) ?: return false
             when {
@@ -51,7 +50,6 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
             val netInfo = cm.activeNetworkInfo
             !(netInfo != null && netInfo.isConnected)
         }
-        return result
     }
 
     override fun groupListLoaded(responseString: String?) {
@@ -66,7 +64,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         group_list_view.setOnItemClickListener { _, _, position, _ ->
             val returnIntent = Intent()
             returnIntent.putExtra("result", groups[position])
-            setResult(AppCompatActivity.RESULT_OK, returnIntent)
+            setResult(RESULT_OK, returnIntent)
             finish()
         }
     }

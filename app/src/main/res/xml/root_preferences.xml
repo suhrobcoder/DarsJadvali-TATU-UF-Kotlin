@@ -1,4 +1,5 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         app:title="@string/main"
@@ -14,7 +15,8 @@
             app:title="@string/enable_notifications"
             app:summary="@string/enable_notification_summary"
             app:key="enable_notifications"
-            app:iconSpaceReserved="false"/>
+            app:iconSpaceReserved="false"
+            android:defaultValue="true"/>
 
         <ListPreference
             app:key="homework_notify"
@@ -24,6 +26,14 @@
             app:entryValues="@array/homework_notify_entry_values"
             app:dialogTitle="Uyga vazifani eslatish"
             app:defaultValue="1"/>
+
+        <uz.suhrob.darsjadvalitatuuf.TimePreference
+            app:key="pref_time_picker"
+            app:title="@string/homework_notify_time"
+            app:iconSpaceReserved="false"
+            app:dialogLayout="@layout/dialog_time_preference"
+            app:defaultValue="17:00"
+            app:negativeButtonText="@string/cancel"/>
 
     </PreferenceCategory>
 

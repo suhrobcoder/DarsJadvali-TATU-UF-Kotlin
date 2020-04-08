@@ -37,30 +37,35 @@ class ScheduleAlarm: BroadcastReceiver() {
         val teacher = intent?.extras?.getString(teacherData)
         val notificationTitle = "Keyingi dars $title"
         var notificationContent = ""
-        if (!room?.trim()?.isEmpty()!!) {
+        if (room != null && room.trim().isNotEmpty()) {
             notificationContent = if (room.contains("/")) {
                 "Dars $room xonalarda."
             } else {
                 "Dars $room-xonada."
             }
         }
-        if (!teacher?.trim()?.isEmpty()!!) {
-            notificationContent += " O'qituvchi $teacher"
+        if (teacher != null && teacher.trim().isNotEmpty()) {
+            notificationContent += if (teacher.contains("/")) {
+                "\nO'qituvchilar ${teacher.replace("/", " va ")}"
+            } else {
+                "\nO'qituvchi $teacher"
+            }
         }
-        val builder = NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_notification)
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val builder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel("schedule_notification", "Keyingi dars", NotificationManager.IMPORTANCE_DEFAULT)
+            notificationManager.createNotificationChannel(notificationChannel)
+            NotificationCompat.Builder(context, "schedule_notification")
+        } else {
+            NotificationCompat.Builder(context)
+        }
+        builder.setSmallIcon(R.drawable.ic_notification)
                 .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.mipmap.ic_launcher))
                 .setContentTitle(notificationTitle)
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(notificationContent))
-        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel("schedule_notification", "Keyingi dars", NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager.createNotificationChannel(notificationChannel)
-            builder.setChannelId("schedule_notification")
-        }
         notificationManager.notify(1, builder.build())
         setAlarm(context, group!!, settings!!)
         wl.release()

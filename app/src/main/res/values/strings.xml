@@ -16,6 +16,7 @@
     <string name="add_homework_dialog_title">%s fanidan uyga vazifa</string>
     <string name="homework_notification_summary">%s kun oldin</string>
     <string name="enable_notification_summary">Dars boshlanishidan 10 daqiqa oldin dars haqidagi bildirishnoma</string>
+    <string name="homework_notify_time">Uyga vazifani eslatish vaqti</string>
 
     <string-array name="homework_notify_entry_values">
         <item>1</item>

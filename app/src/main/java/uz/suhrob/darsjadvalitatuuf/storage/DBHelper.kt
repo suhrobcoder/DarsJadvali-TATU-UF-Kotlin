@@ -161,11 +161,11 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
             do {
                 schedules.add(Schedule(
                         cursor.getString(cursor.getColumnIndex(title)),
-                        cursor.getString(cursor.getColumnIndex(teacherName)),
-                        cursor.getString(cursor.getColumnIndex(roomName)),
-                        WeekDay.valueOf(cursor.getString(cursor.getColumnIndex(weekDay))),
+                        cursor.getString(cursor.getColumnIndex(teacherName)) ?: "",
+                        cursor.getString(cursor.getColumnIndex(roomName)) ?: "",
+                        WeekDay.valueOf(cursor.getString(cursor.getColumnIndex(weekDay)) ?: ""),
                         cursor.getInt(cursor.getColumnIndex(order)),
-                        cursor.getString(cursor.getColumnIndex(lessonType))
+                        cursor.getString(cursor.getColumnIndex(lessonType)) ?: ""
                 ))
             } while (cursor.moveToNext())
         }

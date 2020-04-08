@@ -35,7 +35,7 @@ class SettingsActivity : AppCompatActivity() {
                 val enableNotifyPref = findPreference<SwitchPreference>(enableNotifications)
                 val scheduleAlarm = ScheduleAlarm()
                 val sharedPreferencesHelper = SharedPreferencesHelper(context!!)
-                if (sharedPreferences!!.getBoolean(enableNotifications, false)) {
+                if (sharedPreferences != null && sharedPreferences.getBoolean(key, true)) {
                     scheduleAlarm.setAlarm(context!!, sharedPreferencesHelper.getScheduleString(), sharedPreferencesHelper.getSettingsString())
                 } else {
                     scheduleAlarm.cancelAlarm(context!!)
@@ -46,7 +46,6 @@ class SettingsActivity : AppCompatActivity() {
                 homeworkNotificationPref?.summary = String.format(
                         context!!.resources.getString(R.string.homework_notification_summary),
                         preferenceScreen.sharedPreferences.getString(homeworkNotification, "1"))
-
             }
         }
 
@@ -54,7 +53,6 @@ class SettingsActivity : AppCompatActivity() {
             super.onResume()
             preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-            val enableNotifyPref = findPreference<SwitchPreference>(enableNotifications)
             val homeworkNotificationPref = findPreference<ListPreference>(homeworkNotification)
             homeworkNotificationPref?.summary = String.format(
                     context!!.resources.getString(R.string.homework_notification_summary),
@@ -64,6 +62,20 @@ class SettingsActivity : AppCompatActivity() {
         override fun onPause() {
             super.onPause()
             preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        }
+
+        override fun onDisplayPreferenceDialog(preference: Preference?) {
+            val timePickerDialog = preference as? TimePreference
+            if (timePickerDialog != null) {
+                val dialogFragment = TimeDialogPrefCompat.newInstance(timePickerDialog.key, context?.let { SharedPreferencesHelper(it).getHomeworkNotifyTime() })
+                dialogFragment.setTargetFragment(this, 0)
+                dialogFragment.positiveResult = {
+                    timePickerDialog.summary = "${dialogFragment.hour}:${dialogFragment.minute}"
+                }
+                if (fragmentManager != null) dialogFragment.show(fragmentManager!!, null)
+            } else {
+                super.onDisplayPreferenceDialog(preference)
+            }
         }
     }
 }
