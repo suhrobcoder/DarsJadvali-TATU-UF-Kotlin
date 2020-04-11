@@ -12,9 +12,15 @@ import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_select_group.*
 import uz.suhrob.darsjadvalitatuuf.api.ApiHelper
 import uz.suhrob.darsjadvalitatuuf.models.Group
+import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 
 class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme((R.style.AppTheme))
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_group)
 

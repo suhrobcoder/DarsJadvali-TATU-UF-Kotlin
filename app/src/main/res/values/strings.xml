@@ -13,7 +13,7 @@
     <string name="cancel">Bekor qilish</string>
     <string name="ok">OK</string>
     <string name="homework_content">Uyga vazifa matni</string>
-    <string name="add_homework_dialog_title">%s fanidan uyga vazifa</string>
+    <string name="add_homework_dialog_title">%s\nKeyingi dars %d.%s da</string>
     <string name="homework_notification_summary">%s kun oldin</string>
     <string name="enable_notification_summary">Dars boshlanishidan 10 daqiqa oldin dars haqidagi bildirishnoma</string>
     <string name="homework_notify_time">Uyga vazifani eslatish vaqti</string>

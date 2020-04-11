@@ -6,9 +6,12 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
 import com.google.gson.Gson
@@ -25,7 +28,23 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
 
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
+    override fun onResume() {
+        super.onResume()
+        val typedValue = TypedValue()
+        theme.resolveAttribute(R.attr.themeName, typedValue, true)
+        if (("AppTheme" == typedValue.string && sharedPreferencesHelper.darkThemeEnabled()) ||
+                ("DarkTheme" == typedValue.string && !sharedPreferencesHelper.darkThemeEnabled())) {
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+            finish()
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme((R.style.AppTheme))
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -46,32 +65,12 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     }
 
     override fun scheduleLoaded(group: Group, loadedFromInternet: Boolean) {
-        val lists = ArrayList<List<Schedule>>()
-        val mondayList = ArrayList<Schedule>()
-        val tuesdayList = ArrayList<Schedule>()
-        val wednesdayList = ArrayList<Schedule>()
-        val thursdayList = ArrayList<Schedule>()
-        val fridayList = ArrayList<Schedule>()
-        val saturdayList = ArrayList<Schedule>()
         val loadedSchedules = group.schedules
-        for (schedule in loadedSchedules) {
-            when (schedule.weekDay) {
-                WeekDay.MONDAY -> mondayList.add(schedule)
-                WeekDay.TUESDAY -> tuesdayList.add(schedule)
-                WeekDay.WEDNESDAY -> wednesdayList.add(schedule)
-                WeekDay.THURSDAY -> thursdayList.add(schedule)
-                WeekDay.FRIDAY -> fridayList.add(schedule)
-                WeekDay.SATURDAY -> saturdayList.add(schedule)
-            }
-        }
-        lists.add(mondayList)
-        lists.add(tuesdayList)
-        lists.add(wednesdayList)
-        lists.add(thursdayList)
-        lists.add(fridayList)
-        lists.add(saturdayList)
+        val lists = divideSchedules(loadedSchedules)
         val adapter = ViewPagerAdapter(lists, supportFragmentManager)
         main_viewpager.adapter = adapter
+        tablayout_bg.visibility = View.VISIBLE
+        main_tab_layout.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.tablayout_anim))
         main_progressbar.visibility = View.GONE
         sharedPreferencesHelper.setSchedule(group)
         val alarm = ScheduleAlarm()
@@ -153,5 +152,32 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
             }
             loadData()
         }
+    }
+
+    private fun divideSchedules(schedules: List<Schedule>): List<List<Schedule>> {
+        val lists = ArrayList<List<Schedule>>()
+        val mondayList = ArrayList<Schedule>()
+        val tuesdayList = ArrayList<Schedule>()
+        val wednesdayList = ArrayList<Schedule>()
+        val thursdayList = ArrayList<Schedule>()
+        val fridayList = ArrayList<Schedule>()
+        val saturdayList = ArrayList<Schedule>()
+        for (schedule in schedules) {
+            when (schedule.weekDay) {
+                WeekDay.MONDAY -> mondayList.add(schedule)
+                WeekDay.TUESDAY -> tuesdayList.add(schedule)
+                WeekDay.WEDNESDAY -> wednesdayList.add(schedule)
+                WeekDay.THURSDAY -> thursdayList.add(schedule)
+                WeekDay.FRIDAY -> fridayList.add(schedule)
+                WeekDay.SATURDAY -> saturdayList.add(schedule)
+            }
+        }
+        lists.add(mondayList)
+        lists.add(tuesdayList)
+        lists.add(wednesdayList)
+        lists.add(thursdayList)
+        lists.add(fridayList)
+        lists.add(saturdayList)
+        return lists
     }
 }

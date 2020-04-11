@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
-                    android:background="@color/colorAccent"
+                    android:background="?attr/colorAccent"
                     android:padding="3dp"
                     android:text=""
                     android:textColor="@color/white"
@@ -154,14 +154,17 @@
         app:layout_constraintTop_toBottomOf="@id/schedule_parent_layout">
 
         <TextView
+            android:id="@+id/homework_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=""
+            android:textColor="?attr/textColor"
             android:textSize="15sp"
-            android:id="@+id/homework_content"
-            app:layout_constraintTop_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintRight_toLeftOf="@+id/homework_edit_btn"
+            app:layout_constraintTop_toBottomOf="parent" />
 
         <ImageView
             android:layout_width="wrap_content"

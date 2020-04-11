@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
@@ -55,6 +56,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         cv.put(content, homework.content)
         cv.put(weekDay, homework.weekDay.name)
         cv.put(order, homework.order)
+        Log.d("database_changes", "inserted homework ${homework.toString()}")
         return db.insert(tbHomeworkName, null, cv)
     }
 
@@ -64,7 +66,14 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         cv.put(content, newContent)
         cv.put(weekDay, homework.weekDay.name)
         cv.put(order, homework.order)
+        Log.d("database_changes", "updated homework $newContent")
         db.update(tbHomeworkName, cv, "$id=?", arrayOf(homework.id.toString()))
+    }
+
+    fun deleteHomework(homeworkId: Long?) {
+        val db = this.writableDatabase
+        Log.d("database_changes", "deleted homework ${homeworkId.toString()}")
+        db.delete(tbHomeworkName, "$id=?", arrayOf(homeworkId.toString()))
     }
 
     fun getHomeworkWithSchedule(schedule: Schedule): Homework? {
@@ -104,6 +113,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         val cv = ContentValues()
         cv.put(homeworkId, homeworkNotify.homework_id)
         cv.put(days, homeworkNotify.days)
+        Log.d("database_changes", "inserted homeworknotify ${homeworkNotify.toString()}")
         return db.insert(tbNotifyName, null, cv).toInt()
     }
 
@@ -123,7 +133,7 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
     }
 
     fun updateNotify(homeworkNotify: HomeworkNotify) {
-        if (homeworkNotify.days == 0) {
+        if (homeworkNotify.days <= 0) {
             deleteNotify(homeworkNotify)
             return
         }
@@ -131,11 +141,13 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         val cv = ContentValues()
         cv.put(homeworkId, homeworkNotify.homework_id)
         cv.put(days, homeworkNotify.days)
+        Log.d("database_changes", "updated homeworknotify ${homeworkNotify.toString()}")
         db.update(tbNotifyName, cv, "$id=?", arrayOf(homeworkNotify.id.toString()))
     }
 
     fun deleteNotify(homeworkNotify: HomeworkNotify) {
         val db = this.writableDatabase
+        Log.d("database_changes", "deleted homework ${homeworkNotify.toString()}")
         db.delete(tbNotifyName, "$id=?", arrayOf(homeworkNotify.id.toString()))
     }
 

@@ -8,10 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_splash.*
+import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
+            setTheme(R.style.DarkTheme)
+        } else {
+            setTheme((R.style.AppTheme))
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 

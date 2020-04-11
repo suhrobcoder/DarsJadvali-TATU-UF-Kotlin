@@ -2,13 +2,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        app:title="@string/main"
-        app:iconSpaceReserved="false">
+        app:title="Asosiy"
+        app:iconSpaceReserved="false"
+        android:layout="@layout/preference_category_layout">
+
+        <SwitchPreference
+            app:title="Tungi rejim"
+            app:summary=""
+            app:key="enable_dark_theme"
+            app:iconSpaceReserved="false"
+            app:defaultValue="false" />
 
     </PreferenceCategory>
 
+
     <PreferenceCategory
         app:title="@string/notifications"
+        android:layout="@layout/preference_category_layout"
         app:iconSpaceReserved="false">
 
         <SwitchPreference

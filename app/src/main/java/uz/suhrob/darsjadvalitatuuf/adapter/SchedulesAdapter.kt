@@ -84,6 +84,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
 
                 val homeWork = dbHelper.getHomeworkWithSchedule(schedule)
                 if (homeWork != null) {
+                    homeWorkPanelAddBtn.setImageResource(R.drawable.ic_arrow)
                     homeWorkPanelAddBtn.setOnClickListener {
                         if (homeWorksOpened) {
                             homeWorksOpened = false
@@ -122,27 +123,32 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
             if (oldContent.isNotEmpty()) {
                 homeworkContent.text = oldContent
             }
-            titleText.text = String.format(context.resources.getString(R.string.add_homework_dialog_title), schedule.title)
+            val calendar = Calendar.getInstance()
+            val scheduleDay = schedule.weekDay.ordinal
+            val today = calendar.get(Calendar.DAY_OF_WEEK)-2
+            var deltaDays = scheduleDay-today
+            if (today >= scheduleDay) {
+                deltaDays += 7
+            }
+            calendar.timeInMillis += deltaDays*86400*1000
+            titleText.text = String.format(context.resources.getString(R.string.add_homework_dialog_title), schedule.title, calendar.get(Calendar.DAY_OF_MONTH), if (calendar.get(Calendar.MONTH)+1>9) "${calendar.get(Calendar.MONTH)+1}" else "0${calendar.get(Calendar.MONTH)+1}")
             okBtn.setOnClickListener {
                 val content = homeworkContent.text.toString()
                 if (homework != null) {
-                    DBHelper(context).updateHomework(homework, content)
+                    if (content.isNotEmpty()) {
+                        DBHelper(context).updateHomework(homework, content)
+                    } else {
+                        DBHelper(context).deleteHomework(homework.id)
+                    }
                 } else {
                     val homeworkId = dbHelper.insertHomework(Homework(0, content, schedule.weekDay, schedule.order))
                     if (homeworkId > 0) {
                         val homeworkNotify = HomeworkNotify(0, homeworkId, SharedPreferencesHelper(context).getHomeworkNotify())
-                        val notifyId = dbHelper.insertHomeworkNotify(homeworkNotify)
-                        val calendar = Calendar.getInstance()
+                        calendar.timeInMillis = Calendar.getInstance().timeInMillis
                         val notifyTime = SharedPreferencesHelper(context).getHomeworkNotifyTime()
                         val notifyHour = notifyTime / 60
                         val notifyMinute = notifyTime % 60
-                        val scheduleDay = schedule.weekDay.ordinal
-                        val today = calendar.get(Calendar.DAY_OF_WEEK)-2
-                        var deltaDays = scheduleDay-today
                         var notifyBeforeDays = SharedPreferencesHelper(context).getHomeworkNotify()
-                        if (today >= scheduleDay) {
-                            deltaDays += 7
-                        }
                         if (deltaDays >= notifyBeforeDays) {
                             deltaDays -= notifyBeforeDays
                         } else {
@@ -155,7 +161,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                             notifyBeforeDays--
                         }
                         homeworkNotify.days = notifyBeforeDays
-                        dbHelper.insertHomeworkNotify(homeworkNotify)
+                        val notifyId = dbHelper.insertHomeworkNotify(homeworkNotify)
                         calendar.set(Calendar.MINUTE, notifyMinute)
                         calendar.set(Calendar.HOUR_OF_DAY, notifyHour)
                         Log.d("alarm_time", calendar.toString())

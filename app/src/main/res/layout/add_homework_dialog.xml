@@ -3,15 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="?attr/backgroundColor">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_homework_title"
-        android:text="Dinshunoslik fanidan uyga vazifa"
+        android:text=""
         android:textSize="25sp"
-        android:layout_marginBottom="10dp"/>
+        android:layout_marginBottom="10dp"
+        android:textColor="?attr/textColor"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -19,6 +21,7 @@
         android:hint="@string/homework_content"
         android:id="@+id/add_homework_content"
         android:textSize="20sp"
+        android:textColor="?attr/textColor"
         />
 
     <LinearLayout

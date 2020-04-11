@@ -116,4 +116,15 @@ class SharedPreferencesHelper(private val context: Context) {
     fun getHomeworkNotifyTime(): Int {
         return preferences.getInt("homework_notify_time_hour", 15)*60+preferences.getInt("homework_notify_time_minute", 0)
     }
+
+    fun darkThemeEnabled(): Boolean {
+        return preferences.getBoolean("enable_dark_theme", false)
+    }
+
+    fun setDarkThemeEnabled(enabled: Boolean) {
+        context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean("enable_dark_theme", enabled)
+                .apply()
+    }
 }

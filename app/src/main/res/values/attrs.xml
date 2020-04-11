@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ds">
+        <attr name="tablayout_bg" format="color" />
+        <attr name="tablayout_indicator" format="color" />
+        <attr name="schedule_bg" format="color" />
+        <attr name="backgroundColor" format="color" />
+        <attr name="textColor" format="color" />
+        <attr name="preferenceCategoryColor" format="color" />
+        <attr name="themeName" format="string" />
+    </declare-styleable>
+</resources>

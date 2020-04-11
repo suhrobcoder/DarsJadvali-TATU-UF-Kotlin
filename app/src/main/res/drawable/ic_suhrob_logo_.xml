@@ -91,15 +91,9 @@
                 android:strokeWidth="3"/>
             <path
                 android:name="o1_fill"
-                android:pathData="M 850 150 C 823 156 806 173 800 200 L 800 250 C 806 277 823 294 850 300 L 900 300 C 927 294 944 277 950 250 L 950 200 C 944 173 927 156 900 150 L 850 150"
+                android:pathData="M 850 150 C 823 156 806 173 800 200 L 800 250 C 806 277 823 294 850 300 L 900 300 C 927 294 944 277 950 250 L 950 200 C 944 173 927 156 900 150 L 850 150 M 875 200 C 908 200 908 250 875 250 C 842 250 842 200 875 200"
                 android:fillColor="#000000"
                 android:fillAlpha="0"/>
-            <path
-                android:name="o2_fill"
-                android:pathData="M 875 200 C 908 200 908 250 875 250 C 842 250 842 200 875 200"
-                android:fillColor="#ffffff"
-                android:strokeAlpha="0"
-                android:strokeWidth="3"/>
             <path
                 android:name="b11"
                 android:pathData="M 1000 50 L 1000 300 L 1100 300"
@@ -122,13 +116,9 @@
                 android:strokeWidth="3"/>
             <path
                 android:name="b1_fill"
-                android:pathData="M 1000 50 L 1000 300 L 1100 300 C 1127 294 1144 277 1150 250 L 1150 200 C 1144 173 1127 156 1100 150 L 1050 150 L 1050 100 C 1044 73 1027 56 1000 50"
+                android:pathData="M 1000 50 L 1000 300 L 1100 300 C 1127 294 1144 277 1150 250 L 1150 200 C 1144 173 1127 156 1100 150 L 1050 150 L 1050 100 C 1044 73 1027 56 1000 50 M 1050 200 L 1075 200 C 1108 200 1108 250 1075 250 L 1050 250 L 1050 200"
                 android:fillColor="#000000"
                 android:fillAlpha="0"/>
-            <path
-                android:name="b2_fill"
-                android:pathData="M 1050 200 L 1075 200 C 1108 200 1108 250 1075 250 L 1050 250 L 1050 200"
-                android:fillColor="#ffffff"/>
         </vector>
     </aapt:attr>
     <target android:name="s1">

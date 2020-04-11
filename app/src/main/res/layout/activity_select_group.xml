@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context="uz.suhrob.darsjadvalitatuuf.SelectGroupActivity">
 
     <ListView
@@ -32,6 +33,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_internet_connection"
             android:gravity="center"
+            android:textColor="?attr/textColor"
             android:layout_margin="@dimen/no_internet_text_margin"/>
 
         <Button
