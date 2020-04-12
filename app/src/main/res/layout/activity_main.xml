@@ -65,6 +65,7 @@
             android:layout_height="wrap_content"
             android:text="@string/no_internet_connection"
             android:gravity="center"
+            android:textColor="?attr/textColor"
             android:layout_margin="@dimen/no_internet_text_margin"/>
 
         <Button
