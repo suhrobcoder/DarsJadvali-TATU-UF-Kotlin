@@ -65,7 +65,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
             groups.removeAt(groups.size-1)
         }
         group_list_view.adapter = ArrayAdapter(this,
-                android.R.layout.simple_list_item_1,
+                R.layout.custom_listview_item,
                 android.R.id.text1, groups)
         group_list_view.setOnItemClickListener { _, _, position, _ ->
             val returnIntent = Intent()

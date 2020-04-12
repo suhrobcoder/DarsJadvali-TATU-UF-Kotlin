@@ -13,6 +13,7 @@
         <item name="textColor">@color/black</item>
         <item name="preferenceCategoryColor">@color/colorPrimary</item>
         <item name="themeName">AppTheme</item>
+        <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
     
@@ -27,6 +28,7 @@
         <item name="textColor">@color/white</item>
         <item name="preferenceCategoryColor">@color/white</item>
         <item name="themeName">DarkTheme</item>
+        <item name="android:navigationBarColor">#000a12</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
 
