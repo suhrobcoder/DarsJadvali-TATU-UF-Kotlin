@@ -14,9 +14,9 @@ class ApiHelper {
     private val baseUrl = "http://suhrobbotcodes.000webhostapp.com/schedule/"
 
     fun getGroupList(dataLoadInterface: DataLoadInterface) {
-        val httpClient = AsyncHttpClient()
-        httpClient.get(baseUrl + "group_list.php", object: TextHttpResponseHandler() {
-            override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseString: String?, throwable: Throwable?) {
+        AsyncHttpClient().get(baseUrl + "group_list.php", object: TextHttpResponseHandler() {
+            override fun onFailure(statusCode: Int, headers: Array<out Header>?,
+                                   responseString: String?, throwable: Throwable?) {
                 Log.d("api", "grouplist error")
             }
 
@@ -27,10 +27,7 @@ class ApiHelper {
     }
 
     fun getSchedule(group: String, dataLoadInterface: DataLoadInterface) {
-        val httpClient = AsyncHttpClient()
-        val requestParams = RequestParams()
-        requestParams.add("group", group)
-        httpClient.get(baseUrl + "get_schedule.php", requestParams, object: TextHttpResponseHandler() {
+        AsyncHttpClient().get(baseUrl + "get_schedule.php", RequestParams("group", group), object: TextHttpResponseHandler() {
             override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseString: String?, throwable: Throwable?) {
                 Log.d("api", "getSchedule error")
             }

@@ -3,6 +3,7 @@
     <string name="no_internet_connection">Siz intenetga ulanmagansiz. Dasturdan foydalanish uchun internetga ulaning</string>
     <string name="retry">Qayta urinish</string>
     <string name="change_group">Guruhni o\'zgartirish</string>
+    <string name="enter_group">Guruhni kiritish</string>
     <string name="room_name_text">%1$s xona</string>
     <string name="teacher_name_text">%1$s</string>
     <string name="settings">Sozlamalar</string>
@@ -12,8 +13,10 @@
     <string name="notifications">Bildirishnomalar</string>
     <string name="cancel">Bekor qilish</string>
     <string name="ok">OK</string>
+    <string name="add_homework">Uyga vazifa qo\'shish</string>
     <string name="homework_content">Uyga vazifa matni</string>
     <string name="add_homework_dialog_title">%s\nKeyingi dars %d.%s da</string>
+    <string name="schedule_notification_title">Keyingi dars %s</string>
     <string name="homework_notification_summary">%s kun oldin</string>
     <string name="enable_notification_summary">Dars boshlanishidan 10 daqiqa oldin dars haqidagi bildirishnoma</string>
     <string name="homework_notify_time">Uyga vazifani eslatish vaqti</string>

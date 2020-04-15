@@ -35,7 +35,7 @@ class ScheduleAlarm: BroadcastReceiver() {
         val title = intent?.extras?.getString(titleData)
         val room = intent?.extras?.getString(roomData)
         val teacher = intent?.extras?.getString(teacherData)
-        val notificationTitle = "Keyingi dars $title"
+        val notificationTitle = String.format(context.resources.getString(R.string.schedule_notification_title), title)
         var notificationContent = ""
         if (room != null && room.trim().isNotEmpty()) {
             notificationContent = if (room.contains("/")) {

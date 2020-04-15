@@ -10,7 +10,7 @@ import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {
 
     lateinit var positiveResult: ()->Unit
-    var timePicker: TimePicker? = null
+    private var timePicker: TimePicker? = null
     var hour = 0
     var minute = 0
 
@@ -36,7 +36,7 @@ class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {
     }
 
     override fun onBindDialogView(view: View?) {
-        timePicker = view?.findViewById<TimePicker>(R.id.dialog_preference_time_picker)
+        timePicker = view?.findViewById(R.id.dialog_preference_time_picker)
         timePicker?.setIs24HourView(true)
         val sharedPreferencesHelper = SharedPreferencesHelper(context!!)
         val time = sharedPreferencesHelper.getHomeworkNotifyTime()

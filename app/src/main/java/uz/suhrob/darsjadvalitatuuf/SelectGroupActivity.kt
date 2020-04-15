@@ -24,7 +24,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_group)
 
-        supportActionBar?.title = "Guruhni kiritish"
+        supportActionBar?.title = applicationContext.resources.getString(R.string.enter_group)
 
         select_retry_btn.setOnClickListener {
             if (hasInternetConnection()) {
@@ -61,6 +61,8 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     override fun groupListLoaded(responseString: String?) {
         select_progressbar.visibility = View.GONE
         val groups = responseString?.split("\n")!!.toMutableList()
+        // groups.filter { it.isNotEmpty() }
+        // TODO: Check above code
         if (groups[groups.size-1].isEmpty()) {
             groups.removeAt(groups.size-1)
         }

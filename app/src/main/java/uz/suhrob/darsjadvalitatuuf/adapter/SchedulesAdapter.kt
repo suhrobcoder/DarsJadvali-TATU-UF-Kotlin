@@ -25,9 +25,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
 
     val settings = SharedPreferencesHelper(context).getSettings()
 
-    override fun getItemCount(): Int {
-        return schedules.size
-    }
+    override fun getItemCount() = schedules.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.schedule_item, parent, false))
@@ -59,11 +57,11 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
         private val dbHelper: DBHelper = DBHelper(context)
 
         fun bind(schedule: Schedule) {
-            val startTime = settings.startTime + (settings.lessonDuration+settings.breakTime)*adapterPosition
+            val startTime = settings.getStartTime(adapterPosition+1)
             val finishTime = startTime+settings.lessonDuration
             if (schedule.title.trim().isNotEmpty()) {
-                scheduleStartTime.text = String.format(Locale.getDefault(), (if(startTime/60>9)"%d" else "0%d")+(if(startTime%60>9)":%d" else ":0%d"), startTime/60, startTime%60)
-                scheduleFinishTime.text = String.format(Locale.getDefault(), (if(finishTime/60>9)"%d" else "0%d")+(if(finishTime%60>9)":%d" else ":0%d"), finishTime/60, finishTime%60)
+                scheduleStartTime.text = formattedTime(startTime)
+                scheduleFinishTime.text = formattedTime(finishTime)
                 subjectName.text = schedule.title
                 if (schedule.lessonType.trim().isNotEmpty()) {
                     lessonType.text = schedule.lessonType
@@ -72,7 +70,7 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                 }
                 lessonRoom.text = context.resources.getString(R.string.room_name_text, schedule.roomName)
                 teacherName.text = context.resources.getString(R.string.teacher_name_text, schedule.teacherName)
-                Log.d("adapter", "xabar:" + schedule.roomName)
+                // TODO: fix this
                 if (schedule.roomName == null || schedule.roomName == "") {
                     lessonRoom.visibility = View.GONE
                     iconLocation.visibility = View.GONE
@@ -82,8 +80,8 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                     iconPerson.visibility = View.GONE
                 }
 
-                val homeWork = dbHelper.getHomeworkWithSchedule(schedule)
-                if (homeWork != null) {
+                val homework = dbHelper.getHomeworkWithSchedule(schedule)
+                if (homework != null) {
                     homeWorkPanelAddBtn.setImageResource(R.drawable.ic_arrow)
                     homeWorkPanelAddBtn.setOnClickListener {
                         if (homeWorksOpened) {
@@ -96,14 +94,14 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                             homeworkParentLayout.visibility = View.VISIBLE
                         }
                     }
-                    homeworkContent.text = homeWork.content
+                    homeworkContent.text = homework.content
                     homeworkEditBtn.setOnClickListener {
-                        addEditHomeworkDialog(homeWork, homeWork.content, schedule)
+                        addEditHomeworkDialog(homework, schedule, homework.content)
                     }
                 } else {
                     homeWorkPanelAddBtn.setImageResource(R.drawable.ic_add)
                     homeWorkPanelAddBtn.setOnClickListener {
-                        addEditHomeworkDialog(null, "", schedule)
+                        addEditHomeworkDialog(null, schedule)
                     }
                 }
             } else {
@@ -111,11 +109,11 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
             }
         }
 
-        private fun addEditHomeworkDialog(homework: Homework?, oldContent: String, schedule: Schedule) {
+        private fun addEditHomeworkDialog(homework: Homework?, schedule: Schedule, oldContent: String = "") {
             val dialog = Dialog(context)
             dialog.setContentView(R.layout.add_homework_dialog)
-            dialog.setTitle("Uyga vazifa qo'shish")
-            dialog.setCancelable(false)
+            dialog.setTitle(context.resources.getString(R.string.add_homework))
+            dialog.setCancelable(true)
             val okBtn = dialog.findViewById<Button>(R.id.add_homework_ok)
             val cancelBtn = dialog.findViewById<Button>(R.id.add_homework_cancel)
             val titleText = dialog.findViewById<TextView>(R.id.add_homework_title)
@@ -175,6 +173,20 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                 dialog.dismiss()
             }
             dialog.show()
+        }
+
+        private fun formattedTime(time: Int): String {
+            val hour = time / 60
+            val minute = time % 60
+            return if (hour > 9) {
+                "$hour"
+            } else {
+                "0$hour"
+            } + if (minute > 9) {
+                ":$minute"
+            } else {
+                ":0$minute"
+            }
         }
     }
 }

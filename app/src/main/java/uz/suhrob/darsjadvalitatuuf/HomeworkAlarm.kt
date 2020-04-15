@@ -12,7 +12,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
@@ -94,7 +93,7 @@ class HomeworkAlarm: BroadcastReceiver() {
         }
     }
 
-    fun cancelAlarm(context: Context, homeworkNotifyId: Int) {
+    private fun cancelAlarm(context: Context, homeworkNotifyId: Int) {
         val intent = Intent(context, HomeworkAlarm::class.java)
         val sender = PendingIntent.getBroadcast(context, homeworkNotifyId, intent, 0)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

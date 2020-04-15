@@ -11,11 +11,8 @@ import uz.suhrob.darsjadvalitatuuf.models.Settings
 class SharedPreferencesHelper(private val context: Context) {
 
     private val fileName = "schedule"
-    private val preferences : SharedPreferences
-
-    init {
-        preferences = context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
-    }
+    private val preferences by lazy { context.getSharedPreferences(fileName, Context.MODE_PRIVATE) }
+    private val prefEditor by lazy { context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit() }
 
     fun getSettings(): Settings {
         return Settings(
@@ -35,9 +32,7 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun setGroup(group: String) {
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                .putString("group", group)
-                .apply()
+        prefEditor.putString("group", group).apply()
     }
 
     fun scheduleLoaded(): Boolean {
@@ -45,9 +40,7 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun setScheduleLoaded(isLoaded: Boolean) {
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                .putBoolean("loaded", isLoaded)
-                .apply()
+        prefEditor.putBoolean("loaded", isLoaded).apply()
     }
 
     fun setSchedule(group: Group) {
@@ -82,35 +75,19 @@ class SharedPreferencesHelper(private val context: Context) {
 
     fun setHomeworkNotify(n: Int?) {
         if (n != null) {
-            context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                    .putInt("homework_notify", n)
-                    .apply()
+            prefEditor.putInt("homework_notify", n).apply()
         }
     }
 
     fun setHomeworkNotifyTime(hour: Int, minute: Int) {
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                .putInt("homework_notify_time_hour", hour)
-                .apply()
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit()
-                .putInt("homework_notify_time_minute", minute)
-                .apply()
+        prefEditor.putInt("homework_notify_time_hour", hour).apply()
+        prefEditor.putInt("homework_notify_time_minute", minute).apply()
     }
 
     fun getHomeworkNotifyTimeString(): String {
         val hour = preferences.getInt("homework_notify_time_hour", 15)
         val minute = preferences.getInt("homework_notify_time_minute", 0)
-        var result = if (hour > 9) {
-            "$hour"
-        } else {
-            "0$hour"
-        }
-        result += if (minute > 9) {
-            ":$minute"
-        } else {
-            ":0$minute"
-        }
-        return result
+        return (if (hour > 9) "$hour" else "0$hour") + (if (minute > 9) ":$minute" else ":0$minute")
     }
 
     fun getHomeworkNotifyTime(): Int {
@@ -122,9 +99,6 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun setDarkThemeEnabled(enabled: Boolean) {
-        context.getSharedPreferences(fileName, Context.MODE_PRIVATE)
-                .edit()
-                .putBoolean("enable_dark_theme", enabled)
-                .apply()
+        prefEditor.putBoolean("enable_dark_theme", enabled).apply()
     }
 }

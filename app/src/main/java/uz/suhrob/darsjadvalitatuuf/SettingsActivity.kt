@@ -1,7 +1,6 @@
 package uz.suhrob.darsjadvalitatuuf
 
 import android.content.Intent
-import android.content.RestrictionEntry
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -45,7 +44,7 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
             if (key.equals(enableNotifications)) {
-                val enableNotifyPref = findPreference<SwitchPreference>(enableNotifications)
+                findPreference<SwitchPreference>(enableNotifications)
                 val scheduleAlarm = ScheduleAlarm()
                 val sharedPreferencesHelper = SharedPreferencesHelper(context!!)
                 if (sharedPreferences != null && sharedPreferences.getBoolean(key, true)) {
@@ -60,7 +59,7 @@ class SettingsActivity : AppCompatActivity() {
                         context!!.resources.getString(R.string.homework_notification_summary),
                         preferenceScreen.sharedPreferences.getString(homeworkNotification, "1"))
             } else if (key.equals(enableDarkTheme)) {
-                val enableDarkThemePref = findPreference<SwitchPreference>(enableDarkTheme)
+                findPreference<SwitchPreference>(enableDarkTheme)
                 SharedPreferencesHelper(context!!).setDarkThemeEnabled(preferenceScreen.sharedPreferences.getBoolean(enableDarkTheme, false))
                 restartActivity.restartActivity()
             }

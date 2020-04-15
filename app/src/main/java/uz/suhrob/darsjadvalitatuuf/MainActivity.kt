@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
@@ -67,7 +66,7 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     override fun scheduleLoaded(group: Group, loadedFromInternet: Boolean) {
         val loadedSchedules = group.schedules
         val lists = divideSchedules(loadedSchedules)
-        val adapter = ViewPagerAdapter(lists, supportFragmentManager)
+        val adapter = ViewPagerAdapter(applicationContext, lists, supportFragmentManager)
         main_viewpager.adapter = adapter
         tablayout_bg.visibility = View.VISIBLE
         main_tab_layout.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.tablayout_anim))
