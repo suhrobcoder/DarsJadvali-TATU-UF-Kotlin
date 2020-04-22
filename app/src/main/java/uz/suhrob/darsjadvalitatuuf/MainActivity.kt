@@ -13,14 +13,15 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.tabs.TabLayout
-import com.google.gson.Gson
 import kotlinx.android.synthetic.main.activity_main.*
 import uz.suhrob.darsjadvalitatuuf.adapter.ViewPagerAdapter
-import uz.suhrob.darsjadvalitatuuf.api.ApiHelper
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
+import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.models.WeekDay
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
+import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
 import java.util.*
 
 class MainActivity : AppCompatActivity(), DataLoadInterface {
@@ -63,7 +64,7 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
 
     }
 
-    override fun scheduleLoaded(group: Group, loadedFromInternet: Boolean) {
+    override fun scheduleLoaded(group: Group, settings: Settings, loadedFromInternet: Boolean) {
         val loadedSchedules = group.schedules
         val lists = divideSchedules(loadedSchedules)
         val adapter = ViewPagerAdapter(applicationContext, lists, supportFragmentManager)
@@ -74,13 +75,13 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
         sharedPreferencesHelper.setSchedule(group)
         val alarm = ScheduleAlarm()
         if (loadedFromInternet) {
+            sharedPreferencesHelper.setSettings(settings)
             alarm.cancelAlarm(applicationContext)
-            alarm.setAlarm(applicationContext, Gson().toJson(group), Gson().toJson(sharedPreferencesHelper.getSettings()))
+            alarm.setAlarm(applicationContext, JSONUtils.scheduleToJson(group), JSONUtils.settingsToJson(settings))
         }
         main_schedules_layout.visibility = View.VISIBLE
         supportActionBar?.title = resources.getString(R.string.app_name)+" "+sharedPreferencesHelper.getGroup()
         val calendar = Calendar.getInstance()
-        val settings = sharedPreferencesHelper.getSettings()
         var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-2
         var nowInMinutes = calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE)
         if (dayOfWeek == -1) {
@@ -91,17 +92,18 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
         main_viewpager.currentItem = dayOfWeek + if (nowInMinutes > lastLessonTime) 1 else 0
     }
 
+
     private fun loadData() {
         main_schedules_layout.visibility = View.GONE
         main_no_internet_layout.visibility = View.GONE
         if (sharedPreferencesHelper.scheduleLoaded()) {
-            this.scheduleLoaded(sharedPreferencesHelper.getSchedule(), false)
+            this.scheduleLoaded(sharedPreferencesHelper.getSchedule(), sharedPreferencesHelper.getSettings(),false)
             return
         }
         if (hasInternetConnection()) {
             if (sharedPreferencesHelper.getGroup().isNotEmpty()) {
                 main_progressbar.visibility = View.VISIBLE
-                ApiHelper().getSchedule(sharedPreferencesHelper.getGroup(), this)
+                NetworkUtils().getSchedule(sharedPreferencesHelper.getGroup(), this)
             } else {
                 startActivityForResult(Intent(applicationContext, SelectGroupActivity::class.java), 1)
             }

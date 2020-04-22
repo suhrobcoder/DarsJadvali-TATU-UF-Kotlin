@@ -21,18 +21,18 @@ import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 import java.util.*
 
-class SchedulesAdapter(private val context: Context, private val schedules: List<Schedule>) : RecyclerView.Adapter<SchedulesAdapter.ViewHolder>() {
+class SchedulesAdapter(private val context: Context, private val schedules: List<Schedule>?) : RecyclerView.Adapter<SchedulesAdapter.ViewHolder>() {
 
     val settings = SharedPreferencesHelper(context).getSettings()
 
-    override fun getItemCount() = schedules.size
+    override fun getItemCount() = schedules?.size ?: 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.schedule_item, parent, false))
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val schedule: Schedule? = schedules.firstOrNull { it.order == position+1 }
+        val schedule: Schedule? = schedules?.firstOrNull { it.order == position+1 }
         if (schedule != null) {
             holder.bind(schedule)
         }
@@ -70,12 +70,11 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                 }
                 lessonRoom.text = context.resources.getString(R.string.room_name_text, schedule.roomName)
                 teacherName.text = context.resources.getString(R.string.teacher_name_text, schedule.teacherName)
-                // TODO: fix this
-                if (schedule.roomName == null || schedule.roomName == "") {
+                if (schedule.roomName.isEmpty()) {
                     lessonRoom.visibility = View.GONE
                     iconLocation.visibility = View.GONE
                 }
-                if (schedule.teacherName == null || schedule.teacherName == "") {
+                if (schedule.teacherName.isEmpty()) {
                     teacherName.visibility = View.GONE
                     iconPerson.visibility = View.GONE
                 }

@@ -10,11 +10,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.activity_select_group.*
-import uz.suhrob.darsjadvalitatuuf.api.ApiHelper
 import uz.suhrob.darsjadvalitatuuf.models.Group
+import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
 
 class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
+    private lateinit var networkUtils: NetworkUtils
+
     override fun onCreate(savedInstanceState: Bundle?) {
         if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
             setTheme(R.style.DarkTheme)
@@ -24,17 +27,19 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_group)
 
+        networkUtils = NetworkUtils()
+
         supportActionBar?.title = applicationContext.resources.getString(R.string.enter_group)
 
         select_retry_btn.setOnClickListener {
             if (hasInternetConnection()) {
-                ApiHelper().getGroupList(this)
+                networkUtils.getGroupList(this)
                 select_no_internet_layout.visibility = View.GONE
                 select_progressbar.visibility = View.VISIBLE
             }
         }
         if (hasInternetConnection()) {
-            ApiHelper().getGroupList(this)
+            networkUtils.getGroupList(this)
         } else {
             select_no_internet_layout.visibility = View.VISIBLE
             select_progressbar.visibility = View.GONE
@@ -77,7 +82,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         }
     }
 
-    override fun scheduleLoaded(group: Group, loadedFromInternet: Boolean) {
+    override fun scheduleLoaded(group: Group, settings: Settings, loadedFromInternet: Boolean) {
 
     }
 }

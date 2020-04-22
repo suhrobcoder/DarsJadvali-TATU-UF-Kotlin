@@ -1,12 +1,11 @@
 package uz.suhrob.darsjadvalitatuuf.storage
 
 import android.content.Context
-import android.content.SharedPreferences
-import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.Settings
+import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 
 class SharedPreferencesHelper(private val context: Context) {
 
@@ -15,16 +14,15 @@ class SharedPreferencesHelper(private val context: Context) {
     private val prefEditor by lazy { context.getSharedPreferences(fileName, Context.MODE_PRIVATE).edit() }
 
     fun getSettings(): Settings {
-        return Settings(
-                preferences.getInt("start_time", 510),
-                preferences.getInt("lesson_duration", 80),
-                preferences.getInt("break", 10),
-                preferences.getInt("big_break", 10)
-        )
+        return JSONUtils.getSettingsFromJSON(preferences.getString("settings", ""))!!
+    }
+
+    fun setSettings(settings: Settings) {
+        prefEditor.putString("settings", JSONUtils.settingsToJson(settings)).apply()
     }
 
     fun getSettingsString(): String {
-        return Gson().toJson(getSettings())
+        return preferences.getString("settings", "") ?: ""
     }
 
     fun getGroup(): String {
@@ -66,7 +64,7 @@ class SharedPreferencesHelper(private val context: Context) {
     }
 
     fun getScheduleString(): String {
-        return Gson().toJson(getSchedule())
+        return JSONUtils.scheduleToJson(getSchedule())
     }
 
     fun getHomeworkNotify(): Int {

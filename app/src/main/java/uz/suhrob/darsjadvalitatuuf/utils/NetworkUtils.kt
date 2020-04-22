@@ -1,16 +1,13 @@
-package uz.suhrob.darsjadvalitatuuf.api
+package uz.suhrob.darsjadvalitatuuf.utils
 
 import android.util.Log
-import com.google.gson.Gson
 import com.loopj.android.http.AsyncHttpClient
 import com.loopj.android.http.RequestParams
 import com.loopj.android.http.TextHttpResponseHandler
 import cz.msebera.android.httpclient.Header
 import uz.suhrob.darsjadvalitatuuf.DataLoadInterface
-import uz.suhrob.darsjadvalitatuuf.models.Group
 
-class ApiHelper {
-
+class NetworkUtils {
     private val baseUrl = "http://suhrobbotcodes.000webhostapp.com/schedule/"
 
     fun getGroupList(dataLoadInterface: DataLoadInterface) {
@@ -26,16 +23,22 @@ class ApiHelper {
         })
     }
 
-    fun getSchedule(group: String, dataLoadInterface: DataLoadInterface) {
-        AsyncHttpClient().get(baseUrl + "get_schedule.php", RequestParams("group", group), object: TextHttpResponseHandler() {
+    fun getSchedule(groupName: String, dataLoadInterface: DataLoadInterface) {
+        AsyncHttpClient().get(baseUrl + "get_schedule.php", RequestParams("group", groupName), object: TextHttpResponseHandler() {
             override fun onFailure(statusCode: Int, headers: Array<out Header>?, responseString: String?, throwable: Throwable?) {
                 Log.d("api", "getSchedule error")
             }
 
             override fun onSuccess(statusCode: Int, headers: Array<out Header>?, responseString: String?) {
-                dataLoadInterface.scheduleLoaded(Gson().fromJson(responseString, Group::class.java), true)
+                val splittedResponse = responseString?.split("|||")
+                val group = JSONUtils.getGroupFromJSON(splittedResponse?.get(0))
+                val settings = JSONUtils.getSettingsFromJSON(splittedResponse?.get(1))
+                if (group != null && settings != null) {
+                    dataLoadInterface.scheduleLoaded(group, settings, true)
+                } else {
+                    Log.d("api", "group parse error")
+                }
             }
         })
     }
-
 }

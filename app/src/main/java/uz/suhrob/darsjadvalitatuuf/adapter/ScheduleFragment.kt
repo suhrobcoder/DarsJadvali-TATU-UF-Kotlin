@@ -8,9 +8,8 @@ import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.R
-import uz.suhrob.darsjadvalitatuuf.models.Group
+import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 
 class ScheduleFragment : Fragment() {
 
@@ -28,7 +27,7 @@ class ScheduleFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val arguments = arguments
-        val schedules = Gson().fromJson(arguments?.getString(ARG_SCHEDULES), Group::class.java).schedules
+        val schedules = JSONUtils.getGroupFromJSON(arguments?.getString(ARG_SCHEDULES))?.schedules
         val view = LayoutInflater.from(context)
                 .inflate(R.layout.day_item, container, false)
         val recyclerView = view.findViewById<RecyclerView>(R.id.schedule_recycler_view)

@@ -11,10 +11,9 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.google.gson.Gson
 import uz.suhrob.darsjadvalitatuuf.models.*
+import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 import java.util.*
 
 class ScheduleAlarm: BroadcastReceiver() {
@@ -98,8 +97,9 @@ class ScheduleAlarm: BroadcastReceiver() {
 
     private fun getNextSchedule(group: String, settings1: String): ScheduleNotify {
         val calendar = Calendar.getInstance()
-        val schedules = Gson().fromJson(group, Group::class.java).schedules
-        val settings = Gson().fromJson(settings1, Settings::class.java)
+        // TODO: check below
+        val schedules = JSONUtils.getGroupFromJSON(group)?.schedules!!
+        val settings = JSONUtils.getSettingsFromJSON(settings1)!!
         val lists = ArrayList<List<Schedule>>()
         val mondayList = ArrayList<Schedule>()
         val tuesdayList = ArrayList<Schedule>()
