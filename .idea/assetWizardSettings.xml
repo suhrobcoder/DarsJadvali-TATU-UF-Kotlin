@@ -74,7 +74,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="83" />
+                                                <entry key="scalingPercent" value="85" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -85,8 +85,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="backgroundColor" value="00ff9f" />
-                                      <entry key="backgroundImage" value="F:\Android\20200412_115443.png" />
+                                      <entry key="backgroundImage" value="F:\Android\schedule_app_bg.png" />
                                       <entry key="foregroundImage" value="F:\Android\Schedule_icon.png" />
                                     </map>
                                   </option>
