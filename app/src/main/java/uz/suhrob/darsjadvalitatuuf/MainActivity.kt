@@ -1,46 +1,26 @@
 package uz.suhrob.darsjadvalitatuuf
 
-import android.content.Context
 import android.content.Intent
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
-import android.os.Build
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayout
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_main.*
-import uz.suhrob.darsjadvalitatuuf.adapter.ViewPagerAdapter
-import uz.suhrob.darsjadvalitatuuf.models.Group
-import uz.suhrob.darsjadvalitatuuf.models.Schedule
-import uz.suhrob.darsjadvalitatuuf.models.Settings
-import uz.suhrob.darsjadvalitatuuf.models.WeekDay
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
-import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
-import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
-import java.util.*
 
-class MainActivity : AppCompatActivity(), DataLoadInterface {
+class MainActivity : AppCompatActivity(), RestartActivity {
 
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
 
-    override fun onResume() {
-        super.onResume()
-        val typedValue = TypedValue()
-        theme.resolveAttribute(R.attr.themeName, typedValue, true)
-        if (("AppTheme" == typedValue.string && sharedPreferencesHelper.darkThemeEnabled()) ||
-                ("DarkTheme" == typedValue.string && !sharedPreferencesHelper.darkThemeEnabled())) {
-            startActivity(Intent(applicationContext, MainActivity::class.java))
-            finish()
-        }
-    }
+    private lateinit var homeFragment : HomeFragment
+    private lateinit var settingsFragment : SettingsFragment
+    private lateinit var activeFragment : Fragment
+    private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
+        sharedPreferencesHelper = SharedPreferencesHelper(applicationContext)
+        if (sharedPreferencesHelper.darkThemeEnabled()) {
             setTheme(R.style.DarkTheme)
         } else {
             setTheme((R.style.AppTheme))
@@ -49,86 +29,39 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
         setContentView(R.layout.activity_main)
 
         supportActionBar?.elevation = 0F
-        sharedPreferencesHelper = SharedPreferencesHelper(applicationContext)
-        main_tab_layout.setupWithViewPager(main_viewpager)
-        main_viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(main_tab_layout))
+        val mainTitle = "${resources.getString(R.string.app_name)} ${sharedPreferencesHelper.getGroup()}"
+        supportActionBar?.title = mainTitle
 
-        main_retry_btn.setOnClickListener {
-            loadData()
+        homeFragment = HomeFragment(applicationContext)
+        settingsFragment = SettingsFragment(applicationContext, this)
+        activeFragment = homeFragment
+        fragmentManager.beginTransaction().add(R.id.main_frame, settingsFragment, "2").hide(settingsFragment).commit()
+        fragmentManager.beginTransaction().add(R.id.main_frame, homeFragment, "1").commit()
+        if (sharedPreferencesHelper.isThemeChanged()) {
+            setFragment(settingsFragment)
+            bottom_navbar.selectedItemId = R.id.navbar_settings
+            supportActionBar?.title = applicationContext.resources.getString(R.string.settings)
         }
-
-        loadData()
-    }
-
-    override fun groupListLoaded(responseString: String?) {
-
-    }
-
-    override fun scheduleLoaded(group: Group, settings: Settings, loadedFromInternet: Boolean) {
-        val loadedSchedules = group.schedules
-        val lists = divideSchedules(loadedSchedules)
-        val adapter = ViewPagerAdapter(applicationContext, lists, supportFragmentManager)
-        main_viewpager.adapter = adapter
-        tablayout_bg.visibility = View.VISIBLE
-        main_tab_layout.startAnimation(AnimationUtils.loadAnimation(applicationContext, R.anim.tablayout_anim))
-        main_progressbar.visibility = View.GONE
-        sharedPreferencesHelper.setSchedule(group)
-        val alarm = ScheduleAlarm()
-        if (loadedFromInternet) {
-            sharedPreferencesHelper.setSettings(settings)
-            alarm.cancelAlarm(applicationContext)
-            alarm.setAlarm(applicationContext, JSONUtils.scheduleToJson(group), JSONUtils.settingsToJson(settings))
-        }
-        main_schedules_layout.visibility = View.VISIBLE
-        supportActionBar?.title = resources.getString(R.string.app_name)+" "+sharedPreferencesHelper.getGroup()
-        val calendar = Calendar.getInstance()
-        var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-2
-        var nowInMinutes = calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE)
-        if (dayOfWeek == -1) {
-            dayOfWeek = 0
-            nowInMinutes = 0
-        }
-        val lastLessonTime = settings.startTime + (settings.breakTime+settings.lessonDuration)*(lists[dayOfWeek].size)
-        main_viewpager.currentItem = dayOfWeek + if (nowInMinutes > lastLessonTime) 1 else 0
-    }
-
-
-    private fun loadData() {
-        main_schedules_layout.visibility = View.GONE
-        main_no_internet_layout.visibility = View.GONE
-        if (sharedPreferencesHelper.scheduleLoaded()) {
-            this.scheduleLoaded(sharedPreferencesHelper.getSchedule(), sharedPreferencesHelper.getSettings(),false)
-            return
-        }
-        if (hasInternetConnection()) {
-            if (sharedPreferencesHelper.getGroup().isNotEmpty()) {
-                main_progressbar.visibility = View.VISIBLE
-                NetworkUtils().getSchedule(sharedPreferencesHelper.getGroup(), this)
-            } else {
-                startActivityForResult(Intent(applicationContext, SelectGroupActivity::class.java), 1)
+        bottom_navbar.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.navbar_home -> {
+                    setFragment(homeFragment)
+                    supportActionBar?.title = mainTitle
+                }
+                R.id.navbar_settings -> {
+                    setFragment(settingsFragment)
+                    supportActionBar?.title = resources.getString(R.string.settings)
+                }
             }
-        } else {
-            main_no_internet_layout.visibility = View.VISIBLE
+            true
         }
     }
 
-    private fun hasInternetConnection(): Boolean {
-        val result: Boolean
-        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        result = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val networkCapabilities = cm.activeNetwork ?: return false
-            val actNw = cm.getNetworkCapabilities(networkCapabilities) ?: return false
-            when {
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
-                actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
-                else -> false
-            }
-        } else {
-            val netInfo = cm.activeNetworkInfo
-            !(netInfo != null && netInfo.isConnected)
+    private fun setFragment(fragment: Fragment) {
+        if (fragment != activeFragment) {
+            fragmentManager.beginTransaction().hide(activeFragment).show(fragment).commit()
+            activeFragment = fragment
         }
-        return result
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -139,9 +72,13 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.change_group_menu -> startActivityForResult(Intent(applicationContext, SelectGroupActivity::class.java), 1)
-            R.id.settings_menu -> startActivity(Intent(applicationContext, SettingsActivity::class.java))
         }
         return true
+    }
+
+    override fun restartActivity() {
+        startActivity(Intent(applicationContext, MainActivity::class.java))
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -151,34 +88,11 @@ class MainActivity : AppCompatActivity(), DataLoadInterface {
                 sharedPreferencesHelper.setGroup(it)
                 sharedPreferencesHelper.setScheduleLoaded(false)
             }
-            loadData()
+            this.restartActivity()
         }
     }
+}
 
-    private fun divideSchedules(schedules: List<Schedule>): List<List<Schedule>> {
-        val lists = ArrayList<List<Schedule>>()
-        val mondayList = ArrayList<Schedule>()
-        val tuesdayList = ArrayList<Schedule>()
-        val wednesdayList = ArrayList<Schedule>()
-        val thursdayList = ArrayList<Schedule>()
-        val fridayList = ArrayList<Schedule>()
-        val saturdayList = ArrayList<Schedule>()
-        for (schedule in schedules) {
-            when (schedule.weekDay) {
-                WeekDay.MONDAY -> mondayList.add(schedule)
-                WeekDay.TUESDAY -> tuesdayList.add(schedule)
-                WeekDay.WEDNESDAY -> wednesdayList.add(schedule)
-                WeekDay.THURSDAY -> thursdayList.add(schedule)
-                WeekDay.FRIDAY -> fridayList.add(schedule)
-                WeekDay.SATURDAY -> saturdayList.add(schedule)
-            }
-        }
-        lists.add(mondayList)
-        lists.add(tuesdayList)
-        lists.add(wednesdayList)
-        lists.add(thursdayList)
-        lists.add(fridayList)
-        lists.add(saturdayList)
-        return lists
-    }
+interface RestartActivity {
+    fun restartActivity()
 }

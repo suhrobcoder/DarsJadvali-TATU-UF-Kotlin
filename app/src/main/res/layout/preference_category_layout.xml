@@ -7,6 +7,7 @@
     android:textSize="15sp"
     android:textStyle="bold"
     android:paddingStart="16dp"
+    android:paddingEnd="16dp"
     android:layout_marginTop="15dp"
     android:paddingTop="5dp"
     android:paddingBottom="5dp" />

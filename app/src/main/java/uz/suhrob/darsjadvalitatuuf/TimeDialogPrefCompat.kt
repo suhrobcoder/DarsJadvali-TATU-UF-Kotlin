@@ -18,7 +18,6 @@ class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {
         if (positiveResult) {
             positiveResult()
         }
-        SharedPreferencesHelper(activity!!).setHomeworkNotifyTime(hour, minute)
     }
 
     companion object {

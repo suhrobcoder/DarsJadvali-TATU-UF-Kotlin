@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#002171</color>
     <color name="colorPrimaryLight">#3157d4</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="tabTextColor">#c4c4c4</color>
+    <color name="tabTextColor">#B3FFFFFF</color>
     <color name="tabSelectedTextColor">#fff</color>
     <color name="black">#000</color>
     <color name="white">#fff</color>
+    <color name="textColorSecondaryDark">#B3FFFFFF</color>
 </resources>

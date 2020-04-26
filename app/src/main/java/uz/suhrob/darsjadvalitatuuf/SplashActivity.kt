@@ -23,6 +23,10 @@ class SplashActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
+        if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
+            suhrob_logo_view.setImageResource(R.drawable.ic_suhrob_logo_dark)
+        }
+
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()

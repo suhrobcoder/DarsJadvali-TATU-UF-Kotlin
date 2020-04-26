@@ -97,7 +97,6 @@ class ScheduleAlarm: BroadcastReceiver() {
 
     private fun getNextSchedule(group: String, settings1: String): ScheduleNotify {
         val calendar = Calendar.getInstance()
-        // TODO: check below
         val schedules = JSONUtils.getGroupFromJSON(group)?.schedules!!
         val settings = JSONUtils.getSettingsFromJSON(settings1)!!
         val lists = ArrayList<List<Schedule>>()

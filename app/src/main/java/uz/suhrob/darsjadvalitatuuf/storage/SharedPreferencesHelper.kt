@@ -99,4 +99,23 @@ class SharedPreferencesHelper(private val context: Context) {
     fun setDarkThemeEnabled(enabled: Boolean) {
         prefEditor.putBoolean("enable_dark_theme", enabled).apply()
     }
+
+    fun setThemeChanged() {
+        prefEditor.putBoolean("theme_changed", true).apply()
+    }
+
+    fun isThemeChanged(): Boolean {
+        val isChanged = preferences.getBoolean("theme_changed", false)
+        if (isChanged) {
+            prefEditor.putBoolean("theme_changed", false).apply()
+            return true
+        }
+        return false
+    }
+
+    fun setNotifyDaysBefore(days: Int) {
+        prefEditor.putInt("notify_days", days).apply()
+    }
+
+    fun getNotifyDaysBefore() = preferences.getInt("notify_days", 1)
 }

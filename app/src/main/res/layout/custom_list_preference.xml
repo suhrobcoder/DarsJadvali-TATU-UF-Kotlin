@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/days_before_group">
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="1 kun oldin"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="?attr/textColor"
+        android:id="@+id/days_before_1"
+        android:clickable="true"
+        android:focusable="true"/>
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2 kun oldin"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="?attr/textColor"
+        android:id="@+id/days_before_2"
+        android:clickable="true"
+        android:focusable="true" />
+
+    <RadioButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="3 kun oldin"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:textColor="?attr/textColor"
+        android:id="@+id/days_before_3"
+        android:clickable="true"
+        android:focusable="true"/>
+
+</RadioGroup>

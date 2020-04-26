@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <dimen name="no_internet_text_margin">30dp</dimen>
     <dimen name="splash__icon_layout_margin">15dp</dimen>
@@ -10,5 +10,9 @@
     <dimen name="schedule_item_time_padding">10dp</dimen>
     <dimen name="schedule_item_time_size">20sp</dimen>
     <dimen name="schedule_item_margin_bw_times">10dp</dimen>
+
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+    <dimen name="design_bottom_navigation_icon_size" tools:override="true">32dp</dimen>
 
 </resources>

@@ -1,18 +1,19 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="tablayout_bg">@color/colorPrimary</item>
         <item name="schedule_bg">@color/colorPrimaryLight</item>
         <item name="backgroundColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
         <item name="tabIndicator">@color/colorAccent</item>
         <item name="textColor">@color/black</item>
         <item name="preferenceCategoryColor">@color/colorPrimary</item>
         <item name="themeName">AppTheme</item>
+        <item name="navbar_text">#66000000</item>
+        <item name="navbar_selected_text">@color/colorPrimary</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
     </style>
@@ -23,27 +24,29 @@
         <item name="colorAccent">#263238</item>
         <item name="tablayout_bg">#263238</item>
         <item name="schedule_bg">#365160</item>
-        <item name="backgroundColor">#4f5b62</item>
+        <item name="backgroundColor">#000a12</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/textColorSecondaryDark</item>
         <item name="tabIndicator">@color/white</item>
         <item name="textColor">@color/white</item>
         <item name="preferenceCategoryColor">@color/white</item>
         <item name="themeName">DarkTheme</item>
-        <item name="android:navigationBarColor">#000a12</item>
+        <item name="navbar_text">#80FFFFFF</item>
+
+        <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+
+        <item name="navbar_selected_text">@color/white</item>
+        <item name="android:navigationBarColor">@color/black</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
-    </style>
-
-    <style name="PreferenceTheme" parent="AppTheme">
-        <item name="android:textColor">#000</item>
-    </style>
-
-    <style name="PreferenceDarkTheme" parent="DarkTheme">
-        <item name="android:background">#4f5b62</item>
-        <item name="android:textColor">#fff</item>
     </style>
 
     <style name="WindowAnimationTransition">
         <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
         <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+    <style name="CustomAlertDialog" parent="android:Theme.Material.Dialog">
+        <item name="android:colorBackground">?attr/backgroundColor</item>
     </style>
 
 </resources>

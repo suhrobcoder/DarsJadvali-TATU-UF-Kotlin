@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:title="@string/change_group"
         android:icon="@drawable/ic_swap"
         android:id="@+id/change_group_menu"
         app:showAsAction="always" />
-
-    <item
-        android:title="@string/settings"
-        android:icon="@drawable/ic_settings"
-        android:id="@+id/settings_menu"
-        app:showAsAction="ifRoom" />
-
 </menu>
