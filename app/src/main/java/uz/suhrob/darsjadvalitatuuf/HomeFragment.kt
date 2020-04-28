@@ -28,7 +28,7 @@ import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
-class HomeFragment(private val _context: Context) : Fragment(), DataLoadInterface {
+class HomeFragment(private val _context: Context, private var themeChanged: Boolean) : Fragment(), DataLoadInterface {
 
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private lateinit var main_tab_layout: TabLayout
@@ -105,6 +105,10 @@ class HomeFragment(private val _context: Context) : Fragment(), DataLoadInterfac
             return
         }
         if (hasInternetConnection()) {
+            if (themeChanged) {
+                themeChanged = false
+                return
+            }
             if (sharedPreferencesHelper.getGroup().isNotEmpty()) {
                 main_progressbar.visibility = View.VISIBLE
                 main_tab_layout.visibility = View.GONE

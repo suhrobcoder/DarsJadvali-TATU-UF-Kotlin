@@ -8,7 +8,7 @@ import android.widget.BaseExpandableListAdapter
 import kotlinx.android.synthetic.main.expandable_list_header.view.*
 import kotlinx.android.synthetic.main.expandable_list_item.view.*
 
-class ExpandableListViewAdapter(private val context: Context, private val headerTitles: List<String>, private val childTitles: HashMap<String, List<String>>)
+class ExpandableListViewAdapter(private val context: Context, val darkThemeEnabled: Boolean, private val headerTitles: List<String>, private val childTitles: HashMap<String, List<String>>)
                 :BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any {
@@ -25,7 +25,7 @@ class ExpandableListViewAdapter(private val context: Context, private val header
         val listTitle = getGroup(groupPosition) as String
         val convertView1 = if (convertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            layoutInflater.inflate(R.layout.expandable_list_header, parent)
+            layoutInflater.inflate(if (darkThemeEnabled) R.layout.expandable_list_header_dark else R.layout.expandable_list_header, null)
         } else {
             convertView
         }
@@ -48,7 +48,7 @@ class ExpandableListViewAdapter(private val context: Context, private val header
         val childTitle = getChild(groupPosition, childPosition) as String
         val convertView1 = if (convertView == null) {
             val layoutInflater = this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            layoutInflater.inflate(R.layout.expandable_list_item, parent)
+            layoutInflater.inflate(if (darkThemeEnabled) R.layout.expandable_list_item_dark else R.layout.expandable_list_item, null)
         } else {
             convertView
         }

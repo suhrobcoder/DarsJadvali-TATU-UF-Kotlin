@@ -51,6 +51,9 @@ class SettingsFragment(private val _context: Context, private val restartActivit
         homeworkNotificationCustomPref?.summary = "${sharedPreferencesHelper.getNotifyDaysBefore()} kun oldin"
         val timePreference = findPreference<TimePreference>(timePreferenceKey)
         timePreference?.summary = sharedPreferencesHelper.getHomeworkNotifyTimeString()
+        if (!sharedPreferencesHelper.scheduleLoaded()) {
+            findPreference<SwitchPreference>(enableNotifications)?.isEnabled = false
+        }
     }
 
     override fun onPause() {

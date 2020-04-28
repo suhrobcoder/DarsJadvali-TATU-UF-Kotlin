@@ -32,12 +32,13 @@ class MainActivity : AppCompatActivity(), RestartActivity {
         val mainTitle = "${resources.getString(R.string.app_name)} ${sharedPreferencesHelper.getGroup()}"
         supportActionBar?.title = mainTitle
 
-        homeFragment = HomeFragment(applicationContext)
+        val themeChanged = sharedPreferencesHelper.isThemeChanged()
+        homeFragment = HomeFragment(applicationContext, themeChanged)
         settingsFragment = SettingsFragment(applicationContext, this)
         activeFragment = homeFragment
         fragmentManager.beginTransaction().add(R.id.main_frame, settingsFragment, "2").hide(settingsFragment).commit()
         fragmentManager.beginTransaction().add(R.id.main_frame, homeFragment, "1").commit()
-        if (sharedPreferencesHelper.isThemeChanged()) {
+        if (themeChanged) {
             setFragment(settingsFragment)
             bottom_navbar.selectedItemId = R.id.navbar_settings
             supportActionBar?.title = applicationContext.resources.getString(R.string.settings)

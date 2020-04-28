@@ -2,6 +2,8 @@ package uz.suhrob.darsjadvalitatuuf
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -19,10 +21,12 @@ import kotlin.collections.HashMap
 
 class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
     private lateinit var networkUtils: NetworkUtils
+    private var darkThemeEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (SharedPreferencesHelper(applicationContext).darkThemeEnabled()) {
             setTheme(R.style.DarkTheme)
+            darkThemeEnabled = true
         } else {
             setTheme((R.style.AppTheme))
         }
@@ -89,7 +93,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         }
         val headerTitles = childTitles.keys.toMutableList()
         headerTitles.sort()
-        group_list_view.setAdapter(ExpandableListViewAdapter(applicationContext, headerTitles, childTitles))
+        group_list_view.setAdapter(ExpandableListViewAdapter(applicationContext, darkThemeEnabled, headerTitles, childTitles))
         group_list_view.setOnChildClickListener { _, _, headerPosition, childPosition, _ ->
             val returnIntent = Intent()
             returnIntent.putExtra("result", childTitles[headerTitles[headerPosition]]?.get(childPosition))
