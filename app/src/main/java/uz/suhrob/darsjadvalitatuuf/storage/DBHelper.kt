@@ -155,14 +155,16 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         clearSchedules()
         val db = this.writableDatabase
         for (schedule in schedules) {
-            val cv = ContentValues()
-            cv.put(title, schedule.title)
-            cv.put(teacherName, schedule.teacherName)
-            cv.put(roomName, schedule.roomName)
-            cv.put(weekDay, schedule.weekDay.name)
-            cv.put(order, schedule.order)
-            cv.put(lessonType, schedule.lessonType)
-            db.insert(tbScheduleName, null, cv)
+            if (schedule.title.isNotEmpty()) {
+                val cv = ContentValues()
+                cv.put(title, schedule.title)
+                cv.put(teacherName, schedule.teacherName)
+                cv.put(roomName, schedule.roomName)
+                cv.put(weekDay, schedule.weekDay.name)
+                cv.put(order, schedule.order)
+                cv.put(lessonType, schedule.lessonType)
+                db.insert(tbScheduleName, null, cv)
+            }
         }
     }
 

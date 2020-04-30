@@ -2,8 +2,6 @@ package uz.suhrob.darsjadvalitatuuf
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
@@ -11,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_select_group.*
+import uz.suhrob.darsjadvalitatuuf.adapter.ExpandableListViewAdapter
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper

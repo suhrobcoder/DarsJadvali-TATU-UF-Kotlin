@@ -80,8 +80,8 @@ class ScheduleAlarm: BroadcastReceiver() {
         intent.putExtra(teacherData, schedule?.teacherName)
         intent.putExtra(settingsData, settings)
         intent.putExtra(groupData, group)
-        var alarmTime = scheduleNotify.calendar?.timeInMillis
-        if (alarmTime!! < Calendar.getInstance().timeInMillis) {
+        var alarmTime = scheduleNotify.calendar?.timeInMillis ?: Calendar.getInstance().timeInMillis
+        if (alarmTime < Calendar.getInstance().timeInMillis) {
             alarmTime = Calendar.getInstance().timeInMillis+5000
         }
         val pendingIntent = PendingIntent.getBroadcast(context, intentId, intent, PendingIntent.FLAG_UPDATE_CURRENT)

@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import kotlinx.android.synthetic.main.expandable_list_header.view.*
 import kotlinx.android.synthetic.main.expandable_list_item.view.*
+import uz.suhrob.darsjadvalitatuuf.R
 
-class ExpandableListViewAdapter(private val context: Context, val darkThemeEnabled: Boolean, private val headerTitles: List<String>, private val childTitles: HashMap<String, List<String>>)
+class ExpandableListViewAdapter(private val context: Context, private val darkThemeEnabled: Boolean, private val headerTitles: List<String>, private val childTitles: HashMap<String, List<String>>)
                 :BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): Any {
