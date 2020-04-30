@@ -30,7 +30,7 @@ class SplashActivity : AppCompatActivity() {
         Handler().postDelayed({
             startActivity(Intent(this, MainActivity::class.java))
             finish()
-        }, 4000)
+        }, 3000)
 
         val logoUpAnimation = AnimationUtils.loadAnimation(applicationContext, R.anim.logo_up)
         suhrob_logo_view.visibility = View.INVISIBLE
