@@ -1,4 +1,4 @@
 package uz.suhrob.darsjadvalitatuuf.models
 
-data class Schedule(val title: String, val teacherName: String, val roomName: String,
-                    val weekDay: WeekDay, val order: Int, val lessonType: String)
+data class Schedule(var title: String = "", var teacherName: String = "", var roomName: String = "",
+                    var weekDay: WeekDay = WeekDay.MONDAY, var order: Int = 1, var lessonType: String = "")

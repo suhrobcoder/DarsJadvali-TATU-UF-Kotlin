@@ -23,21 +23,21 @@ import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.models.WeekDay
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.utils.FirebaseHelper
 import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
-import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
 import java.util.*
 import kotlin.collections.ArrayList
 
 class HomeFragment(private val _context: Context, private var themeChanged: Boolean) : Fragment(), DataLoadInterface {
 
     private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
-    private lateinit var main_tab_layout: TabLayout
-    private lateinit var main_viewpager: ViewPager
-    private lateinit var main_retry_btn: Button
-    private lateinit var tablayout_bg: View
-    private lateinit var main_progressbar: ProgressBar
-    private lateinit var main_schedules_layout: LinearLayout
-    private lateinit var main_no_internet_layout: LinearLayout
+    private lateinit var mainTabLayout: TabLayout
+    private lateinit var mainViewpager: ViewPager
+    private lateinit var mainRetryBtn: Button
+    private lateinit var tablayoutBg: View
+    private lateinit var mainProgressbar: ProgressBar
+    private lateinit var mainSchedulesLayout: LinearLayout
+    private lateinit var mainNoInternetLayout: LinearLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_home, container, false)
@@ -46,18 +46,18 @@ class HomeFragment(private val _context: Context, private var themeChanged: Bool
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         sharedPreferencesHelper = SharedPreferencesHelper(_context)
 
-        main_tab_layout = view.main_tab_layout
-        main_viewpager = view.main_viewpager
-        main_retry_btn = view.main_retry_btn
-        tablayout_bg = view.tablayout_bg
-        main_progressbar = view.main_progressbar
-        main_schedules_layout = view.main_schedules_layout
-        main_no_internet_layout = view.main_no_internet_layout
+        mainTabLayout = view.main_tab_layout
+        mainViewpager = view.main_viewpager
+        mainRetryBtn = view.main_retry_btn
+        tablayoutBg = view.tablayout_bg
+        mainProgressbar = view.main_progressbar
+        mainSchedulesLayout = view.main_schedules_layout
+        mainNoInternetLayout = view.main_no_internet_layout
 
-        main_tab_layout.setupWithViewPager(main_viewpager)
-        main_viewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(main_tab_layout))
+        mainTabLayout.setupWithViewPager(mainViewpager)
+        mainViewpager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(mainTabLayout))
 
-        main_retry_btn.setOnClickListener {
+        mainRetryBtn.setOnClickListener {
             loadData()
         }
 
@@ -68,23 +68,26 @@ class HomeFragment(private val _context: Context, private var themeChanged: Bool
 
     }
 
-    override fun scheduleLoaded(group: Group, settings: Settings, loadedFromInternet: Boolean) {
+    override fun scheduleLoaded(group: Group?, settings: Settings?, loadedFromInternet: Boolean) {
+        if (group == null || settings == null) {
+            return
+        }
         val loadedSchedules = group.schedules
         val lists = divideSchedules(loadedSchedules)
-        val adapter = ViewPagerAdapter(_context, lists, fragmentManager!!)
-        main_viewpager.adapter = adapter
-        tablayout_bg.visibility = View.VISIBLE
-        main_tab_layout.visibility = View.VISIBLE
-        main_tab_layout.startAnimation(AnimationUtils.loadAnimation(context, R.anim.tablayout_anim))
-        main_progressbar.visibility = View.GONE
+        val adapter = ViewPagerAdapter(_context, lists, requireFragmentManager())
+        mainViewpager.adapter = adapter
+        tablayoutBg.visibility = View.VISIBLE
+        mainTabLayout.visibility = View.VISIBLE
+        mainTabLayout.startAnimation(AnimationUtils.loadAnimation(_context, R.anim.tablayout_anim))
+        mainProgressbar.visibility = View.GONE
         sharedPreferencesHelper.setSchedule(group)
         val alarm = ScheduleAlarm()
         if (loadedFromInternet) {
             sharedPreferencesHelper.setSettings(settings)
             alarm.cancelAlarm(_context)
-            alarm.setAlarm(context!!, JSONUtils.scheduleToJson(group), JSONUtils.settingsToJson(settings))
+            alarm.setAlarm(_context, JSONUtils.scheduleToJson(group), JSONUtils.settingsToJson(settings))
         }
-        main_schedules_layout.visibility = View.VISIBLE
+        mainSchedulesLayout.visibility = View.VISIBLE
         val calendar = Calendar.getInstance()
         var dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)-2
         var nowInMinutes = calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE)
@@ -93,13 +96,13 @@ class HomeFragment(private val _context: Context, private var themeChanged: Bool
             nowInMinutes = 0
         }
         val lastLessonTime = settings.startTime + (settings.breakTime+settings.lessonDuration)*(lists[dayOfWeek].size)
-        main_viewpager.currentItem = dayOfWeek + if (nowInMinutes > lastLessonTime) 1 else 0
+        mainViewpager.currentItem = dayOfWeek + if (nowInMinutes > lastLessonTime) 1 else 0
     }
 
 
     private fun loadData() {
-        main_schedules_layout.visibility = View.GONE
-        main_no_internet_layout.visibility = View.GONE
+        mainSchedulesLayout.visibility = View.GONE
+        mainNoInternetLayout.visibility = View.GONE
         if (sharedPreferencesHelper.scheduleLoaded()) {
             this.scheduleLoaded(sharedPreferencesHelper.getSchedule(), sharedPreferencesHelper.getSettings(),false)
             return
@@ -110,15 +113,15 @@ class HomeFragment(private val _context: Context, private var themeChanged: Bool
                 return
             }
             if (sharedPreferencesHelper.getGroup().isNotEmpty()) {
-                main_progressbar.visibility = View.VISIBLE
-                main_tab_layout.visibility = View.GONE
-                tablayout_bg.visibility = View.GONE
-                NetworkUtils().getSchedule(sharedPreferencesHelper.getGroup(), this)
+                mainProgressbar.visibility = View.VISIBLE
+                mainTabLayout.visibility = View.GONE
+                tablayoutBg.visibility = View.GONE
+                FirebaseHelper.getInstance().getSchedule(sharedPreferencesHelper.getGroup(), this)
             } else {
-                startActivityForResult(Intent(context, SelectGroupActivity::class.java), 1)
+                startActivityForResult(Intent(_context, SelectGroupActivity::class.java), 1)
             }
         } else {
-            main_no_internet_layout.visibility = View.VISIBLE
+            mainNoInternetLayout.visibility = View.VISIBLE
         }
     }
 

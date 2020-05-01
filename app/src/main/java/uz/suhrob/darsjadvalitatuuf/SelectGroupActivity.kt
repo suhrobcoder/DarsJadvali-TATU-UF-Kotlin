@@ -13,13 +13,11 @@ import uz.suhrob.darsjadvalitatuuf.adapter.ExpandableListViewAdapter
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
-import uz.suhrob.darsjadvalitatuuf.utils.NetworkUtils
+import uz.suhrob.darsjadvalitatuuf.utils.FirebaseHelper
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
 class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
-    private lateinit var networkUtils: NetworkUtils
     private var darkThemeEnabled = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,19 +30,17 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_select_group)
 
-        networkUtils = NetworkUtils()
-
         supportActionBar?.title = applicationContext.resources.getString(R.string.enter_group)
 
         select_retry_btn.setOnClickListener {
             if (hasInternetConnection()) {
-                networkUtils.getGroupList(this)
+                FirebaseHelper.getInstance().getGroups(this)
                 select_no_internet_layout.visibility = View.GONE
                 select_progressbar.visibility = View.VISIBLE
             }
         }
         if (hasInternetConnection()) {
-            networkUtils.getGroupList(this)
+            FirebaseHelper.getInstance().getGroups(this)
         } else {
             select_no_internet_layout.visibility = View.VISIBLE
             select_progressbar.visibility = View.GONE
@@ -70,7 +66,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
 
     override fun groupListLoaded(responseString: String?) {
         select_progressbar.visibility = View.GONE
-        val groups = responseString?.split("\n")!!.toMutableList()
+        val groups = responseString?.split(" ")!!.toMutableList()
         if (groups[groups.size-1].isEmpty()) {
             groups.removeAt(groups.size-1)
         }
@@ -87,7 +83,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
                 children?.add(group)
                 childTitles[header] = children ?: emptyList()
             } else {
-                childTitles[header] = ArrayList()
+                childTitles[header] = listOf(group)
             }
         }
         val headerTitles = childTitles.keys.toMutableList()
@@ -102,7 +98,7 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
         }
     }
 
-    override fun scheduleLoaded(group: Group, settings: Settings, loadedFromInternet: Boolean) {
+    override fun scheduleLoaded(group: Group?, settings: Settings?, loadedFromInternet: Boolean) {
 
     }
 
