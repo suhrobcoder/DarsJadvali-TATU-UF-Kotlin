@@ -12,7 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import kotlinx.android.synthetic.main.schedule_item.view.*
-import uz.suhrob.darsjadvalitatuuf.HomeworkAlarm
+import uz.suhrob.darsjadvalitatuuf.receivers.HomeworkAlarm
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify

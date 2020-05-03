@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui.settings
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.preference.PreferenceDialogFragmentCompat
+import uz.suhrob.darsjadvalitatuuf.R
 
 class CustomListPrefDialogCompat : PreferenceDialogFragmentCompat() {
 

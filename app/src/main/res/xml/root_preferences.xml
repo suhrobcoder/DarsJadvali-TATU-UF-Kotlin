@@ -28,14 +28,14 @@
             app:iconSpaceReserved="false"
             android:defaultValue="true"/>
 
-        <uz.suhrob.darsjadvalitatuuf.CustomListPreference
+        <uz.suhrob.darsjadvalitatuuf.ui.settings.CustomListPreference
             app:key="homework_notify_custom"
             app:title="Uyga vazifani eslatish"
             app:iconSpaceReserved="false"
             app:dialogLayout="@layout/custom_list_preference"
             app:dialogTitle="Uyga vazifani eslatish"/>
 
-        <uz.suhrob.darsjadvalitatuuf.TimePreference
+        <uz.suhrob.darsjadvalitatuuf.ui.settings.TimePreference
             app:key="pref_time_picker"
             app:title="@string/homework_notify_time"
             app:iconSpaceReserved="false"

@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui
 
 import android.content.Context
 import android.content.Intent
@@ -9,6 +9,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_select_group.*
+import uz.suhrob.darsjadvalitatuuf.utils.DataLoadInterface
+import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.adapter.ExpandableListViewAdapter
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings

@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.receivers
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -12,6 +12,7 @@ import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
 import androidx.core.app.NotificationCompat
+import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.*
 import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 import java.util.*

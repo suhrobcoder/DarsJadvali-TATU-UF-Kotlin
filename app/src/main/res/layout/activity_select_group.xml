@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context="uz.suhrob.darsjadvalitatuuf.SelectGroupActivity">
+    tools:context="uz.suhrob.darsjadvalitatuuf.ui.SelectGroupActivity">
 
     <ExpandableListView
         android:layout_width="match_parent"

@@ -9,8 +9,9 @@ import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.WeekDay
+import uz.suhrob.darsjadvalitatuuf.receivers.HomeworkAlarm
 
-class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
+class DBHelper(val context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
     companion object {
         private const val dbName = "schedule.db"
 
@@ -74,6 +75,10 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         val db = this.writableDatabase
         Log.d("database_changes", "deleted homework ${homeworkId.toString()}")
         db.delete(tbHomeworkName, "$id=?", arrayOf(homeworkId.toString()))
+    }
+
+    private fun clearHomework() {
+        this.writableDatabase.execSQL("DELETE FROM $tbHomeworkName")
     }
 
     fun getHomeworkWithSchedule(schedule: Schedule): Homework? {
@@ -151,8 +156,25 @@ class DBHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 1) {
         db.delete(tbNotifyName, "$id=?", arrayOf(homeworkNotify.id.toString()))
     }
 
+    private fun clearNotifies() {
+        this.writableDatabase.execSQL("DELETE FROM $tbNotifyName")
+    }
+
+    private fun cancelAllNotifies() {
+        val cursor = this.writableDatabase.rawQuery("SELECT * FROM $tbNotifyName", null)
+        if (cursor.moveToFirst()) {
+            do {
+                HomeworkAlarm().cancelAlarm(context, cursor.getLong(cursor.getColumnIndex(id)).toInt())
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+    }
+
     fun insertSchedules(schedules: List<Schedule>) {
         clearSchedules()
+        clearHomework()
+        cancelAllNotifies()
+        clearNotifies()
         val db = this.writableDatabase
         for (schedule in schedules) {
             if (schedule.title.isNotEmpty()) {

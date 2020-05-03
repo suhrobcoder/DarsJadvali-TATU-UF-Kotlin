@@ -1,10 +1,9 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui.settings
 
 import android.content.Context
-import android.content.res.TypedArray
 import android.util.AttributeSet
 import androidx.preference.DialogPreference
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.R
 
 class TimePreference(context: Context, attr: AttributeSet): DialogPreference(context, attr) {
     init {

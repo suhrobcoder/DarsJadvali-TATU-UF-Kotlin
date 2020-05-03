@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.utils
 
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings

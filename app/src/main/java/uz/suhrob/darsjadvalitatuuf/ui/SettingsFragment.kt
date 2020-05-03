@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,7 +7,13 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
+import uz.suhrob.darsjadvalitatuuf.*
+import uz.suhrob.darsjadvalitatuuf.receivers.ScheduleAlarm
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.ui.settings.CustomListPrefDialogCompat
+import uz.suhrob.darsjadvalitatuuf.ui.settings.CustomListPreference
+import uz.suhrob.darsjadvalitatuuf.ui.settings.TimeDialogPrefCompat
+import uz.suhrob.darsjadvalitatuuf.ui.settings.TimePreference
 
 class SettingsFragment(private val _context: Context, private val restartActivity: RestartActivity) : PreferenceFragmentCompat(), SharedPreferences.OnSharedPreferenceChangeListener {
 

@@ -1,7 +1,6 @@
 package uz.suhrob.darsjadvalitatuuf.utils
 
 import com.google.firebase.database.*
-import uz.suhrob.darsjadvalitatuuf.DataLoadInterface
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 

@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".AddSchedulesActivity"></activity>
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ui.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,12 +22,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SelectGroupActivity"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity" />
+            android:name=".ui.SelectGroupActivity"
+            android:parentActivityName=".ui.MainActivity" />
+        <activity android:name=".ui.MainActivity" />
 
-        <receiver android:name=".ScheduleAlarm" />
-        <receiver android:name=".HomeworkAlarm" />
+        <receiver android:name=".receivers.ScheduleAlarm" />
+        <receiver android:name=".receivers.HomeworkAlarm" />
     </application>
 
 </manifest>

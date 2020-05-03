@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/backgroundColor"
-    tools:context="uz.suhrob.darsjadvalitatuuf.MainActivity">
+    tools:context="uz.suhrob.darsjadvalitatuuf.ui.MainActivity">
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navbar"

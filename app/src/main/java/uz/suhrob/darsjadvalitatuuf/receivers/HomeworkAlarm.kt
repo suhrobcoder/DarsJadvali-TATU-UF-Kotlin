@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.receivers
 
 import android.app.AlarmManager
 import android.app.NotificationChannel
@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.PowerManager
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
@@ -93,7 +94,7 @@ class HomeworkAlarm: BroadcastReceiver() {
         }
     }
 
-    private fun cancelAlarm(context: Context, homeworkNotifyId: Int) {
+    fun cancelAlarm(context: Context, homeworkNotifyId: Int) {
         val intent = Intent(context, HomeworkAlarm::class.java)
         val sender = PendingIntent.getBroadcast(context, homeworkNotifyId, intent, 0)
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

@@ -1,10 +1,11 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui.settings
 
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
+import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
 
 class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {

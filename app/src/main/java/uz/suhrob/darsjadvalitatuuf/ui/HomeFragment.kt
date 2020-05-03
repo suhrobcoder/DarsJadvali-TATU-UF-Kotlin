@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf
+package uz.suhrob.darsjadvalitatuuf.ui
 
 import android.content.Context
 import android.content.Intent
@@ -17,6 +17,9 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import uz.suhrob.darsjadvalitatuuf.utils.DataLoadInterface
+import uz.suhrob.darsjadvalitatuuf.R
+import uz.suhrob.darsjadvalitatuuf.receivers.ScheduleAlarm
 import uz.suhrob.darsjadvalitatuuf.adapter.ViewPagerAdapter
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
