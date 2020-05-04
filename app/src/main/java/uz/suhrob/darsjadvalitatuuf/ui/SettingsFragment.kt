@@ -79,7 +79,7 @@ class SettingsFragment(private val _context: Context, private val restartActivit
                         sharedPreferencesHelper.setNotifyDaysBefore(dialogFragment.days)
                     }
                     if (fragmentManager != null) {
-                        dialogFragment.show(fragmentManager!!, null)
+                        dialogFragment.show(requireFragmentManager(), null)
                     }
                 }
             }
@@ -92,7 +92,7 @@ class SettingsFragment(private val _context: Context, private val restartActivit
                         timePickerDialog.summary = formattedTime(dialogFragment.hour, dialogFragment.minute)
                         sharedPreferencesHelper.setHomeworkNotifyTime(dialogFragment.hour, dialogFragment.minute)
                     }
-                    if (fragmentManager != null) dialogFragment.show(fragmentManager!!, null)
+                    dialogFragment.show(requireFragmentManager(), null)
                 }
             }
             else -> super.onDisplayPreferenceDialog(preference)

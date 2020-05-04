@@ -36,7 +36,7 @@ class CustomListPrefDialogCompat : PreferenceDialogFragmentCompat() {
         val daysBefore1 = view?.findViewById<RadioButton>(R.id.days_before_1)
         val daysBefore2 = view?.findViewById<RadioButton>(R.id.days_before_2)
         val daysBefore3 = view?.findViewById<RadioButton>(R.id.days_before_3)
-        val daysBeforeGroup = view?.findViewById<RadioGroup>(R.id.days_before_group)
+        view?.findViewById<RadioGroup>(R.id.days_before_group)
         when (this.days) {
             1 -> daysBefore1?.isChecked = true
             2 -> daysBefore2?.isChecked = true

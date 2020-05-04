@@ -28,7 +28,6 @@ class JSONUtils {
             }
             var group: Group? = null
             try {
-                Log.d("json_parse", json)
                 val groupJSONObject = JSONObject(json)
                 val groupName = groupJSONObject.getString(keyGroupName)
                 val schedulesJSONArray = groupJSONObject.getJSONArray(keySchedules)

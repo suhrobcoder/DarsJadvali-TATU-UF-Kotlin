@@ -38,7 +38,7 @@ class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {
     override fun onBindDialogView(view: View?) {
         timePicker = view?.findViewById(R.id.dialog_preference_time_picker)
         timePicker?.setIs24HourView(true)
-        val sharedPreferencesHelper = SharedPreferencesHelper(context!!)
+        val sharedPreferencesHelper = SharedPreferencesHelper(requireContext())
         val time = sharedPreferencesHelper.getHomeworkNotifyTime()
         if (Build.VERSION.SDK_INT >= 23) {
             timePicker?.hour = time / 60

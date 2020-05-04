@@ -11,7 +11,6 @@ import android.graphics.BitmapFactory
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.PowerManager
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
@@ -32,7 +31,6 @@ class HomeworkAlarm: BroadcastReceiver() {
         val homeworkDone = intent?.extras?.getBoolean(deleteNotify, false) ?: false
         val homeworkNotifyId = intent?.extras?.getInt(notifyId) ?: return
         val homeworkNotify = dbHelper.getHomeworkNotifyById(homeworkNotifyId) ?: return
-        Log.d("alarm_time", homeworkDone.toString())
         if (homeworkDone) {
             dbHelper.deleteNotify(HomeworkNotify(homeworkNotifyId.toLong(),0,0))
             dbHelper.deleteHomework(homeworkNotify.homework_id)

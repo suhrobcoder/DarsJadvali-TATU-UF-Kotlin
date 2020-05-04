@@ -3,7 +3,6 @@ package uz.suhrob.darsjadvalitatuuf.adapter
 import android.app.Dialog
 import android.content.Context
 import androidx.recyclerview.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -161,7 +160,6 @@ class SchedulesAdapter(private val context: Context, private val schedules: List
                         val notifyId = dbHelper.insertHomeworkNotify(homeworkNotify)
                         calendar.set(Calendar.MINUTE, notifyMinute)
                         calendar.set(Calendar.HOUR_OF_DAY, notifyHour)
-                        Log.d("alarm_time", calendar.toString())
                         HomeworkAlarm().setAlarm(context, calendar.timeInMillis, notifyId)
                     }
                 }
