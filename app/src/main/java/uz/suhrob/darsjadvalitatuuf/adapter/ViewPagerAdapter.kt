@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 
 class ViewPagerAdapter(val context: Context, private val schedules: List<List<Schedule>>, fm: FragmentManager): FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

@@ -9,7 +9,7 @@ import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreference
 import uz.suhrob.darsjadvalitatuuf.*
 import uz.suhrob.darsjadvalitatuuf.receivers.ScheduleAlarm
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import uz.suhrob.darsjadvalitatuuf.ui.settings.CustomListPrefDialogCompat
 import uz.suhrob.darsjadvalitatuuf.ui.settings.CustomListPreference
 import uz.suhrob.darsjadvalitatuuf.ui.settings.TimeDialogPrefCompat

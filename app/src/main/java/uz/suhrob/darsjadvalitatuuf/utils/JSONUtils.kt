@@ -1,6 +1,5 @@
 package uz.suhrob.darsjadvalitatuuf.utils
 
-import android.util.Log
 import org.json.JSONException
 import org.json.JSONObject
 import uz.suhrob.darsjadvalitatuuf.models.Group

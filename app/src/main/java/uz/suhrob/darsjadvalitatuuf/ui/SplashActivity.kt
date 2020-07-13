@@ -9,7 +9,7 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.activity_splash.*
 import uz.suhrob.darsjadvalitatuuf.R
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 
 class SplashActivity : AppCompatActivity() {
 

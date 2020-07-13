@@ -19,5 +19,7 @@
     <string name="enable_notification_summary">Dars boshlanishidan 10 daqiqa oldin dars haqidagi bildirishnoma</string>
     <string name="homework_notify_time">Uyga vazifani eslatish vaqti</string>
     <string name="navbar_home_string">Bosh sahifa</string>
+    <string name="group_list_load_error">Guruhlar ro\'yhatini yuklashda xatolik</string>
+    <string name="schedule_load_error">Guruhning dars jadvalini yuklashda xatolik</string>
 
 </resources>

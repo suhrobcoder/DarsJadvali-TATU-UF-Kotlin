@@ -14,7 +14,7 @@ import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.adapter.ExpandableListViewAdapter
 import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Settings
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import uz.suhrob.darsjadvalitatuuf.utils.FirebaseHelper
 import java.util.*
 import kotlin.collections.HashMap
@@ -102,6 +102,10 @@ class SelectGroupActivity : AppCompatActivity(), DataLoadInterface {
 
     override fun scheduleLoaded(group: Group?, settings: Settings?, loadedFromInternet: Boolean) {
 
+    }
+
+    override fun loadError() {
+        con_error_select_group.text = getString(R.string.group_list_load_error)
     }
 
     private fun getGroupYear(groupName: String): Int {

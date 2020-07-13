@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.TimePicker
 import androidx.preference.PreferenceDialogFragmentCompat
 import uz.suhrob.darsjadvalitatuuf.R
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 
 class TimeDialogPrefCompat: PreferenceDialogFragmentCompat() {
 

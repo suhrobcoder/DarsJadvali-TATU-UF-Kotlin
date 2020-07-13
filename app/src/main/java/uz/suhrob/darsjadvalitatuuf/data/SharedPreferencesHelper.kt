@@ -1,4 +1,4 @@
-package uz.suhrob.darsjadvalitatuuf.storage
+package uz.suhrob.darsjadvalitatuuf.data
 
 import android.content.Context
 import uz.suhrob.darsjadvalitatuuf.models.Group

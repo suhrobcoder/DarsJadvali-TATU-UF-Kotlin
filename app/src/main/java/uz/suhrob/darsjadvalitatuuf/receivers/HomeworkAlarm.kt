@@ -14,8 +14,8 @@ import android.os.PowerManager
 import androidx.core.app.NotificationCompat
 import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
-import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.DBHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import java.util.*
 
 class HomeworkAlarm: BroadcastReceiver() {

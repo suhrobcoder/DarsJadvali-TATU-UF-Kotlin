@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import uz.suhrob.darsjadvalitatuuf.utils.DataLoadInterface
 import uz.suhrob.darsjadvalitatuuf.R
@@ -25,7 +26,7 @@ import uz.suhrob.darsjadvalitatuuf.models.Group
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
 import uz.suhrob.darsjadvalitatuuf.models.Settings
 import uz.suhrob.darsjadvalitatuuf.models.WeekDay
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import uz.suhrob.darsjadvalitatuuf.utils.FirebaseHelper
 import uz.suhrob.darsjadvalitatuuf.utils.JSONUtils
 import java.util.*
@@ -102,8 +103,13 @@ class HomeFragment(private val _context: Context, private var themeChanged: Bool
         mainViewpager.currentItem = dayOfWeek + if (nowInMinutes > lastLessonTime) 1 else 0
     }
 
+    override fun loadError() {
+        con_error_home.text = getString(R.string.schedule_load_error)
+    }
+
 
     private fun loadData() {
+        sharedPreferencesHelper.setGroup("941-19")
         mainSchedulesLayout.visibility = View.GONE
         mainNoInternetLayout.visibility = View.GONE
         if (sharedPreferencesHelper.scheduleLoaded()) {

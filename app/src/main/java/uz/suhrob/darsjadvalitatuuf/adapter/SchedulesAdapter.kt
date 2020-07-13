@@ -16,8 +16,8 @@ import uz.suhrob.darsjadvalitatuuf.R
 import uz.suhrob.darsjadvalitatuuf.models.Homework
 import uz.suhrob.darsjadvalitatuuf.models.HomeworkNotify
 import uz.suhrob.darsjadvalitatuuf.models.Schedule
-import uz.suhrob.darsjadvalitatuuf.storage.DBHelper
-import uz.suhrob.darsjadvalitatuuf.storage.SharedPreferencesHelper
+import uz.suhrob.darsjadvalitatuuf.data.DBHelper
+import uz.suhrob.darsjadvalitatuuf.data.SharedPreferencesHelper
 import java.util.*
 
 class SchedulesAdapter(private val context: Context, private val schedules: List<Schedule>?) : RecyclerView.Adapter<SchedulesAdapter.ViewHolder>() {
