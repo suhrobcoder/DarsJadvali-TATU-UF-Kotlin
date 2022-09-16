@@ -1,3 +1,6 @@
 package uz.suhrob.darsjadvalitatuuf.models
 
-data class Group(var name: String = "", var schedules: List<Schedule> = ArrayList())
+data class Group(
+    val name: String = "",
+    val lessons: List<Lesson> = listOf(),
+)
